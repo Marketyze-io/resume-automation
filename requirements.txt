@@ -1,4 +1,4 @@
-flask
-pyresparser
-requests
+Flask==3.0.3
+pyresparser==1.0.6
+requests==2.32.3
 gunicorn==22.0.0
