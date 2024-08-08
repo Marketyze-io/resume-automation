@@ -1,1 +1,1 @@
-web: python resume_parser.py
+web: gunicorn resume_parser:app
