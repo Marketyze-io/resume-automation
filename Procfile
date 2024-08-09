@@ -1,1 +1,1 @@
-web: gunicorn resume_parser:app
+web: python download_nltk_data.py && gunicorn resume_parser:app

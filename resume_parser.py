@@ -2,13 +2,13 @@ from pyresparser import ResumeParser
 import requests
 from flask import Flask, request, jsonify
 import os
-import nltk
+# import nltk
 
-# Download required NLTK data files
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+# # Download required NLTK data files
+# nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
+# nltk.download('wordnet')
 
 app = Flask(__name__)
 
