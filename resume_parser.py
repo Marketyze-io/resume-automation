@@ -56,6 +56,13 @@ def process_resume():
             responses.append({"error": str(e)})
     return jsonify(responses)
 
+# The error ModuleNotFoundError: No module named 'fcntl' occurs because the fcntl module 
+# is specific to Unix-like operating systems (such as Linux and macOS) and is not available on Windows.
+
+# How to Resolve the Issue
+# Since you're working on a Windows environment, you'll need to 
+# avoid using any functionality that relies on fcntl when running your application locally on Windows. 
+
 # if __name__ == "__main__":
 #     port = int(os.environ.get('PORT', 5000))
 #     if os.getenv("FLASK_ENV") == "development":
@@ -63,6 +70,21 @@ def process_resume():
 #     else:
 #         from waitress import serve
 #         serve(app, host='0.0.0.0', port=port) # If windows
+
+# Explanation:
+# os.name: The check os.name == "nt" is the correct way to determine if the script is running on a Windows system. 
+# nt refers to Windows NT, and this is a reliable way to identify the Windows environment.
+
+# FLASK_ENV: Using FLASK_ENV to distinguish between development and production environments is common, 
+# but in this case, since the problem is platform-specific, checking the operating system is a better approach.
+
+# Summary:
+# Windows: Uses waitress for serving the application.
+# Linux/Mac: Uses the default Flask server (or you can add the option to run gunicorn).
+
+# Operating System Check: I've replaced the FLASK_ENV check with os.name == "nt", 
+# which directly checks if the environment is Windows. 
+# This ensures that waitress is only used when the application is running on Windows.
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
