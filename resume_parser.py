@@ -2,15 +2,23 @@ from pyresparser import ResumeParser
 import requests
 from flask import Flask, jsonify
 import os
+import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
 
-app = Flask(__name__)
 
-# Load Google credentials from a JSON file
-creds = Credentials.from_service_account_file('client_secret_434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com.json')
+# Load Google credentials from environment variable
+google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
+if google_creds_json:
+    creds = Credentials.from_service_account_info(json.loads(google_creds_json))
+else:
+    raise ValueError("Google credentials not found in environment variables")
+
 drive_service = build('drive', 'v3', credentials=creds)
+
+
+app = Flask(__name__)
 
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
 database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
