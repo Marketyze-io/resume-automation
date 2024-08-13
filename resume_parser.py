@@ -2,13 +2,6 @@ from pyresparser import ResumeParser
 import requests
 from flask import Flask, request, jsonify
 import os
-# import nltk
-
-# # Download required NLTK data files
-# nltk.download('stopwords')
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('wordnet')
 
 app = Flask(__name__)
 
@@ -63,10 +56,18 @@ def process_resume():
             responses.append({"error": str(e)})
     return jsonify(responses)
 
+# if __name__ == "__main__":
+#     port = int(os.environ.get('PORT', 5000))
+#     if os.getenv("FLASK_ENV") == "development":
+#         app.run(debug=True, host='0.0.0.0', port=port) # If Linux or Mac
+#     else:
+#         from waitress import serve
+#         serve(app, host='0.0.0.0', port=port) # If windows
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    if os.getenv("FLASK_ENV") == "development":
-        app.run(debug=True, host='0.0.0.0', port=port)
-    else:
+    if os.name == "nt":  # Check if the OS is Windows (nt)
         from waitress import serve
         serve(app, host='0.0.0.0', port=port)
+    else:
+        app.run(debug=True, host='0.0.0.0', port=port)
