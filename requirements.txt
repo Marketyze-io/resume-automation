@@ -7,3 +7,7 @@ numpy==1.23.5
 spacy==3.7.5
 thinc== 8.2.5
 pydantic==1.10.9
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
