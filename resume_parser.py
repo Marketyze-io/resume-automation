@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
 database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
+google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3")
 
 def list_files_in_folder(folder_id):
     query = f"'{folder_id}' in parents"
@@ -61,13 +62,14 @@ def add_to_notion(info):
     response.raise_for_status()  # This will raise an HTTPError for bad responses
     return response.json()
 
-@app.route('/process_resume', methods=['POST'])
-def process_resume():
-    resume_files = request.json.get('resume_files', [])
+@app.route('/process_drive_folder', methods=['POST'])
+def process_drive_folder():
+    files = list_files_in_folder(google_drive_folder_id)
     responses = []
-    for resume in resume_files:
+    for file in files:
         try:
-            info = extract_info_from_resume(resume)
+            file_path = download_file(file['id'], file['name'])
+            info = extract_info_from_resume(file_path)
             response = add_to_notion(info)
             responses.append(response)
         except Exception as e:
