@@ -27,6 +27,8 @@ if google_creds_json:
 else:
     raise ValueError("Google credentials not found in environment variables")
 
+drive_service = build('drive', 'v3', credentials=creds)
+
 app = Flask(__name__)
 
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
