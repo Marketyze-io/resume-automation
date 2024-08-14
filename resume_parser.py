@@ -10,6 +10,10 @@ from google.oauth2.service_account import Credentials
 
 # Load Google credentials from environment variable
 google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
+if google_creds_json:
+    creds = Credentials.from_service_account_info(json.loads(google_creds_json))
+else:
+    raise ValueError("Google credentials not found in environment variables")
 
 app = Flask(__name__)
 
