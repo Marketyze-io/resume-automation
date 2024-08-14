@@ -12,6 +12,20 @@ app = Flask(__name__)
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
 database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
 
+def list_files_in_folder(folder_id):
+    query = f"'{folder_id}' in parents"
+    results = drive_service.files().list(q=query).execute()
+    return results.get('files', [])
+
+def download_file(file_id, file_name):
+    request = drive_service.files().get_media(fileId=file_id)
+    fh = open(file_name, 'wb')
+    downloader = MediaIoBaseDownload(fh, request)
+    done = False
+    while done is False:
+        status, done = downloader.next_chunk()
+    return file_name
+
 def extract_info_from_resume(file_path):
     data = ResumeParser(file_path).get_extracted_data()
     if data:
