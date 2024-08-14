@@ -9,10 +9,21 @@ from google.oauth2.service_account import Credentials
 
 
 # Load Google credentials from environment variable
-google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
+# google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
+google_creds_json = {
+    "web":{
+    "client_id":"434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com",
+    "project_id":"automations-415608",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret":"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",
+    "redirect_uris":["https://resume-automation.onrender.com/oauth2callback"],
+    "javascript_origins":["https://resume-automation.onrender.com"]
+    }
+}
 if google_creds_json:
     creds = Credentials.from_service_account_info(json.loads(google_creds_json))
-    print(google_creds_json)
 else:
     raise ValueError("Google credentials not found in environment variables")
 
