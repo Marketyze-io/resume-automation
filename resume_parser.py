@@ -22,8 +22,14 @@ google_creds_json = {
     "javascript_origins":["https://resume-automation.onrender.com"]
     }
 }
+
+# The error you're encountering is because you're trying to load a dictionary (google_creds_json) 
+# using json.loads(), which expects a JSON string, not a dictionary. 
+# Since you already have the JSON content as a dictionary, # you don't need to use json.loads(). 
+# You can pass the dictionary directly to Credentials.from_service_account_info().
+
 if google_creds_json:
-    creds = Credentials.from_service_account_info(json.loads(google_creds_json))
+    creds = Credentials.from_service_account_info(google_creds_json)
 else:
     raise ValueError("Google credentials not found in environment variables")
 
