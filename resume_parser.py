@@ -7,6 +7,10 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
 
+
+# Load Google credentials from environment variable
+google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
+
 app = Flask(__name__)
 
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
