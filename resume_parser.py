@@ -12,6 +12,7 @@ from google.oauth2.service_account import Credentials
 google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
 if google_creds_json:
     creds = Credentials.from_service_account_info(json.loads(google_creds_json))
+    print(google_creds_json)
 else:
     raise ValueError("Google credentials not found in environment variables")
 
