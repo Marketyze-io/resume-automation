@@ -1,5 +1,5 @@
 Flask==3.0.3
-pyresparser==1.0.6
+pyresparser
 requests==2.32.3
 gunicorn==22.0.0
 waitress==2.1.2

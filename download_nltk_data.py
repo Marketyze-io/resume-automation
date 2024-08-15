@@ -1,8 +1,4 @@
 import nltk
-import spacy
-
-# Downloading the model
-spacy.cli.download("en_core_web_sm")
 
 # Download required NLTK data files
 nltk.download('punkt')
