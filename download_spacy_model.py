@@ -5,7 +5,7 @@ from subprocess import run
 def download_model():
     try:
         run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-        run(["python", "-m", "spacy", "link", "en_core_web_sm", "en_core_web_sm"])
+        # run(["python", "-m", "spacy", "link", "en_core_web_sm", "en_core_web_sm"])
         print("SpaCy model downloaded and linked successfully.")
     except Exception as e:
         print(f"Error downloading or linking the SpaCy model: {e}")
