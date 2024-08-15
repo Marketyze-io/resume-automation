@@ -1,1 +1,1 @@
-web: python download_spacy_model.py && python download_nltk_data.py && gunicorn resume_parser:app
+web: python download_nltk_data.py && python download_spacy_model.py && gunicorn resume_parser:app
