@@ -76,14 +76,24 @@ def list_files_in_folder(folder_id):
     results = drive_service.files().list(q=query).execute()
     return results.get('files', [])
 
+# def download_file(file_id, file_name):
+#     request = drive_service.files().get_media(fileId=file_id)
+#     fh = open(file_name, 'wb')
+#     downloader = MediaIoBaseDownload(fh, request)
+#     done = False
+#     while done is False:
+#         status, done = downloader.next_chunk()
+#     return file_name
+
 def download_file(file_id, file_name):
     request = drive_service.files().get_media(fileId=file_id)
-    fh = open(file_name, 'wb')
-    downloader = MediaIoBaseDownload(fh, request)
-    done = False
-    while done is False:
-        status, done = downloader.next_chunk()
+    with open(file_name, 'wb') as fh:
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
     return file_name
+
 
 def extract_info_from_resume(file_path):
     data = ResumeParser(file_path).get_extracted_data()
