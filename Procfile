@@ -1,1 +1,1 @@
-web: python download_nltk_data.py && gunicorn resume_parser:app
+web: python install_dependencies.py && gunicorn resume_parser:app
