@@ -115,15 +115,24 @@ def add_to_notion(info):
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28"
     }
+    # data = {
+    #     "parent": { "database_id": database_id },
+    #     "properties": {
+    #         "First Name": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
+    #         "Last Name": { "rich_text": [{ "text": { "content": info.get("last_name", "") }}]},
+    #         "Mobile No": { "phone_number": info.get("mobile_no", "") },
+    #         "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
+    #         "LinkedIn Profile": { "url": info.get("linkedin_profile", "") },
+    #         "CV": { "files": [{ "name": "CV", "external": { "url": info.get("cv", "") }}]}
+    #     }
+    # }
+
     data = {
         "parent": { "database_id": database_id },
         "properties": {
-            "First Name": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
-            "Last Name": { "rich_text": [{ "text": { "content": info.get("last_name", "") }}]},
-            "Mobile No": { "phone_number": info.get("mobile_no", "") },
+            "Name": { "title": [{ "text": { "content": f"{info.get('first_name', '')} {info.get('last_name', '')}" }}]},
+            "Email": { "rich_text": [{ "text": { "content": info.get("email", "") }}]},
             "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
-            "LinkedIn Profile": { "url": info.get("linkedin_profile", "") },
-            "CV": { "files": [{ "name": "CV", "external": { "url": info.get("cv", "") }}]}
         }
     }
 
