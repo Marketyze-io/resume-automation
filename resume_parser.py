@@ -132,7 +132,7 @@ def add_to_notion(info):
         "properties": {
             "Name": { "title": [{ "text": { "content": f"{info.get('first_name', '')} {info.get('last_name', '')}" }}]},
             "Email": { "rich_text": [{ "text": { "content": info.get("email", "") }}]},
-            "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
+            #"University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
         }
     }
 
