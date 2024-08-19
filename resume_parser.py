@@ -118,7 +118,7 @@ def add_to_notion(info):
     # data = {
     #     "parent": { "database_id": database_id },
     #     "properties": {
-    #         "First Name": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
+    #         "First NameF": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
     #         "Last Name": { "rich_text": [{ "text": { "content": info.get("last_name", "") }}]},
     #         "Mobile No": { "phone_number": info.get("mobile_no", "") },
     #         "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
@@ -139,6 +139,7 @@ def add_to_notion(info):
     try:
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()  # This will raise an HTTPError for bad responses
+        print(response.json)
     except requests.exceptions.HTTPError as e:
         print(f"Error: {e}")
         print(f"Response Content: {response.content}")
