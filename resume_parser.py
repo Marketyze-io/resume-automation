@@ -126,8 +126,15 @@ def add_to_notion(info):
             "CV": { "files": [{ "name": "CV", "external": { "url": info.get("cv", "") }}]}
         }
     }
-    response = requests.post(url, headers=headers, json=data)
-    response.raise_for_status()  # This will raise an HTTPError for bad responses
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()  # This will raise an HTTPError for bad responses
+    except requests.exceptions.HTTPError as e:
+        print(f"Error: {e}")
+        print(f"Response Content: {response.content}")
+        return {"error": f"Failed to add page to Notion: {e}"}
+    
     return response.json()
 
 @app.route('/process_drive_folder', methods=['POST'])
