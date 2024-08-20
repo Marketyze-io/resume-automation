@@ -127,10 +127,10 @@ def extract_info_from_resume(file_path):
             "last_name": last_name,
             "name": name,
             "email": data.get("email", "unknown@unknown.com"),
-            "mobile_no": data.get("mobile_number", "No Number Provided"),
+            #"mobile_no": data.get("mobile_number", "No Number Provided"),
             "university": data.get("college_name", "No University Provided"),
-            "linkedin_profile": data.get("linkedin", "No LinkedIn"),
-            "cv": file_path
+            #"linkedin_profile": data.get("linkedin", "No LinkedIn"),
+            #"cv": file_path
         }
     return {}
 
@@ -167,10 +167,17 @@ def add_to_notion(info):
             "Email": { 
                 "email": info.get('email', 'unknown@unknown.com')
             },
+            # "University": { 
+            #     "rich_text": [{ 
+            #         "text": { 
+            #             "content": info.get("university", "No University Provided") 
+            #         }
+            #     }]
+            # },
             "University": { 
-                "rich_text": [{ 
+                "title": [{ 
                     "text": { 
-                        "content": info.get("university", "No University Provided") 
+                        "content": info.get('university', 'No University Provided') 
                     }
                 }]
             },
