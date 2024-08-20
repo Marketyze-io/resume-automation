@@ -122,15 +122,11 @@ def extract_info_from_resume(file_path):
             first_name = "Unknown"
             last_name = "Unknown"
 
-        email = data.get("email")
-        if not email:
-            email = "Unknown"
-
         return {
             "first_name": first_name,
             "last_name": last_name,
             "name": name,
-            "email": email,
+            "email": data.get("email", "unknown@unknown.com"),
             "mobile_no": data.get("mobile_number", "No Number Provided"),
             "university": data.get("college_name", "No University Provided"),
             "linkedin_profile": data.get("linkedin", "No LinkedIn"),
