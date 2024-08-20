@@ -111,11 +111,26 @@ def extract_info_from_resume(file_path):
     logging.debug("Resume loaded.")
 
     if data:
+        name = data.get("name")
+        # Handle name splitting safely
+        if name:
+            name_parts = name.split()
+            first_name = name_parts[0] if len(name_parts) > 0 else "Unknown"
+            last_name = name_parts[-1] if len(name_parts) > 1 else "Unknown"
+        else:
+            name = "Unknown"
+            first_name = "Unknown"
+            last_name = "Unknown"
+
+        email = data.get("email")
+        if not email:
+            email = "Unknown"
+
         return {
-            # "first_name": data.get("name", "").split()[0],
-            # "last_name": data.get("name", "").split()[-1],
-            "name": data.get("name", "Unknown Name"),
-            "email": data.get("email", "No Email Provided"),
+            "first_name": first_name,
+            "last_name": last_name,
+            "name": name,
+            "email": email,
             "mobile_no": data.get("mobile_number", "No Number Provided"),
             "university": data.get("college_name", "No University Provided"),
             "linkedin_profile": data.get("linkedin", "No LinkedIn"),
