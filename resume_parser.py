@@ -115,6 +115,7 @@ def extract_info_from_resume(file_path):
             # "first_name": data.get("name", "").split()[0],
             # "last_name": data.get("name", "").split()[-1],
             "name": data.get("name", ""),
+            "email": data.get("email", ""),
             "mobile_no": data.get("mobile_number", ""),
             "university": data.get("college_name", ""),
             "linkedin_profile": data.get("linkedin", ""),
@@ -152,13 +153,13 @@ def add_to_notion(info):
                     }
                 }]
             },
-            # "Email": { 
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get("email", "No Email Provided") 
-            #         }
-            #     }]
-            # },
+            "Email": { 
+                "rich_text": [{ 
+                    "text": { 
+                        "content": info.get("email", "No Email Provided") 
+                    }
+                }]
+            },
             # "University": { 
             #     "rich_text": [{ 
             #         "text": { 
