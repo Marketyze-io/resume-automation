@@ -1,4 +1,3 @@
-import io
 import logging
 #logging.basicConfig(level=logging.DEBUG)
 from pyresparser import ResumeParser
@@ -97,19 +96,17 @@ def list_files_in_folder(folder_id):
 
 def download_file(file_id, file_name):
     request = drive_service.files().get_media(fileId=file_id)
-    buffer = io.BytesIO()
-    downloader = MediaIoBaseDownload(buffer, request)
-
-    done = False
-    while not done:
-        status, done = downloader.next_chunk()
-    buffer.seek(0)
-    return buffer
+    with open(file_name, 'wb') as fh:
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+    return file_name
 
 
-def extract_info_from_resume(file_buffer):
+def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
-    data = ResumeParser(file_buffer).get_extracted_data()
+    data = ResumeParser(file_path).get_extracted_data()
     logging.debug("Resume loaded.")
 
     if data:
@@ -119,7 +116,7 @@ def extract_info_from_resume(file_buffer):
             "mobile_no": data.get("mobile_number", ""),
             "university": data.get("college_name", ""),
             "linkedin_profile": data.get("linkedin", ""),
-            # "cv": file_path
+            "cv": file_path
         }
     return {}
 
@@ -176,9 +173,9 @@ def add_to_notion(info):
         print(response.json)
         return response.json()
     except requests.exceptions.HTTPError as e:
-        logging.error(f"Failed to add page to Notion: {e}")
+        print(f"Error: {e}")
         print(f"Response Content: {response.content}")
-        return {"error": str(e)}
+        return {"error": f"Failed to add page to Notion: {e}"}
 
 
 @app.route('/process_drive_folder', methods=['POST'])
@@ -187,8 +184,8 @@ def process_drive_folder():
     responses = []
     for file in files:
         try:
-            file_buffer = download_file(file['id'], file['name'])
-            info = extract_info_from_resume(file_buffer)
+            file_path = download_file(file['id'], file['name'])
+            info = extract_info_from_resume(file_path)
             response = add_to_notion(info)
             responses.append(response)
         except Exception as e:
