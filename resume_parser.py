@@ -133,7 +133,8 @@ def extract_info_from_resume(file_path):
             "name": name,
             "email": data.get("email", "unknown@unknown.com"),
             #"mobile_no": data.get("mobile_number", "No Number Provided"),
-            "university": data.get("college_name", "No University Provided"),
+            "university": cn,
+            #"university": data.get("college_name", "No University Provided"),
             #"linkedin_profile": data.get("linkedin", "No LinkedIn"),
             #"cv": file_path
         }
