@@ -185,16 +185,25 @@ def add_to_notion(info):
         }
     }
 
-
+    
     try:
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()  # This will raise an HTTPError for bad responses
-        print(response.json)
-        return response.json()
+        print(response.json())
     except requests.exceptions.HTTPError as e:
-        print(f"Error: {e}")
+        # Check if the error is due to email validation
+        if "validation_error" in str(response.content) and "Email is expected to be email." in str(response.content):
+            print("Error: The email field is not properly formatted.")
+        else:
+            print(f"HTTP Error: {e}")
         print(f"Response Content: {response.content}")
         return {"error": f"Failed to add page to Notion: {e}"}
+    except Exception as e:
+        # Handle other possible errors
+        print(f"An unexpected error occurred: {e}")
+        return {"error": f"An unexpected error occurred: {e}"}
+    
+    return response.json()
 
 
 @app.route('/process_drive_folder', methods=['POST'])
