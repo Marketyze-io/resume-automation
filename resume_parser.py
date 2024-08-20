@@ -165,11 +165,7 @@ def add_to_notion(info):
                 }]
             },
             "Email": { 
-                "title": [{ 
-                    "text": { 
-                        "content": f"{info.get('email', 'unknown@unknown.com')}"
-                    }
-                }]
+                "email": info.get('email', 'unknown@unknown.com')
             },
             "University": { 
                 "rich_text": [{ 
