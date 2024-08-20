@@ -189,13 +189,13 @@ def add_to_notion(info):
             #         }
             #     }]
             # },
-            "University": { 
-                "title": [{ 
-                    "text": { 
-                        "content": info.get('university', 'No University Provided') 
-                    }
-                }]
-            },
+            # "University": { 
+            #     "title": [{ 
+            #         "text": { 
+            #             "content": info.get('university', 'No University Provided') 
+            #         }
+            #     }]
+            # },
         }
     }
 
