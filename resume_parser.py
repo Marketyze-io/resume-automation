@@ -167,7 +167,7 @@ def add_to_notion(info):
             "Email": { 
                 "rich_text": [{ 
                     "text": { 
-                        "content": info.get("email", "No Email Provided") 
+                        "content": info.get("email", "unknown@unknown.com") 
                     }
                 }]
             },
