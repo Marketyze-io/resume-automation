@@ -144,20 +144,20 @@ def add_to_notion(info):
                     }
                 }]
             },
-            "Email": { 
-                "rich_text": [{ 
-                    "text": { 
-                        "content": info.get("email", "No Email Provided") 
-                    }
-                }]
-            },
-            "University": { 
-                "rich_text": [{ 
-                    "text": { 
-                        "content": info.get("university", "No University Provided") 
-                    }
-                }]
-            },
+            # "Email": { 
+            #     "rich_text": [{ 
+            #         "text": { 
+            #             "content": info.get("email", "No Email Provided") 
+            #         }
+            #     }]
+            # },
+            # "University": { 
+            #     "rich_text": [{ 
+            #         "text": { 
+            #             "content": info.get("university", "No University Provided") 
+            #         }
+            #     }]
+            # },
         }
     }
 

@@ -7,6 +7,7 @@ numpy==1.23.5
 nltk
 spacy~=2.3.5
 pyresparser==1.0.6
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz
 thinc
 pydantic==1.10.13
 google-api-python-client
