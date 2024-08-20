@@ -164,6 +164,12 @@ def add_to_notion(info):
                     }
                 }]
             },
+
+            "Email": {
+                "type": "rich_text"
+                    "rich_text": info.get('email', 'unknown@unknown.com')
+            }
+
             "Email": { 
                 "email": info.get('email', 'unknown@unknown.com')
             },
