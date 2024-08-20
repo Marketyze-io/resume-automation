@@ -114,11 +114,11 @@ def extract_info_from_resume(file_path):
         return {
             # "first_name": data.get("name", "").split()[0],
             # "last_name": data.get("name", "").split()[-1],
-            "name": data.get("name", ""),
-            "email": data.get("email", ""),
-            "mobile_no": data.get("mobile_number", ""),
-            "university": data.get("college_name", ""),
-            "linkedin_profile": data.get("linkedin", ""),
+            "name": data.get("name", "Unknown Name"),
+            "email": data.get("email", "No Email Provided"),
+            "mobile_no": data.get("mobile_number", "No Number Provided"),
+            "university": data.get("college_name", "No University Provided"),
+            "linkedin_profile": data.get("linkedin", "No LinkedIn"),
             "cv": file_path
         }
     return {}
