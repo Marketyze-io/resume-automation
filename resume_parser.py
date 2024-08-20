@@ -1,3 +1,5 @@
+import logging
+logging.basicConfig(level=logging.DEBUG)
 from pyresparser import ResumeParser
 import requests
 from flask import Flask, request, jsonify
@@ -103,7 +105,10 @@ def download_file(file_id, file_name):
 
 
 def extract_info_from_resume(file_path):
+    logging.debug("Loading resume...")
     data = ResumeParser(file_path).get_extracted_data()
+    logging.debug("Resume loaded.")
+
     if data:
         return {
             "first_name": data.get("name", "").split()[0],
