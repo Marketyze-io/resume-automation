@@ -171,13 +171,13 @@ def add_to_notion(info):
                     }
                 }]
             },
-            # "University": { 
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get("university", "No University Provided") 
-            #         }
-            #     }]
-            # },
+            "University": { 
+                "rich_text": [{ 
+                    "text": { 
+                        "content": info.get("university", "No University Provided") 
+                    }
+                }]
+            },
         }
     }
 
