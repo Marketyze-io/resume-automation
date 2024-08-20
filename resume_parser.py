@@ -130,11 +130,30 @@ def add_to_notion(info):
     data = {
         "parent": { "database_id": database_id },
         "properties": {
-            "Name": { "title": [{ "text": { "content": f"{info.get('first_name', '')} {info.get('last_name', '')}" }}]},
-            "Email": { "rich_text": [{ "text": { "content": info.get("email", "") }}]},
-            #"University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
+            "Name": { 
+                "title": [{ 
+                    "text": { 
+                        "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
+                    }
+                }]
+            },
+            "Email": { 
+                "rich_text": [{ 
+                    "text": { 
+                        "content": info.get("email", "No Email Provided") 
+                    }
+                }]
+            },
+            "University": { 
+                "rich_text": [{ 
+                    "text": { 
+                        "content": info.get("university", "No University Provided") 
+                    }
+                }]
+            },
         }
     }
+
 
     try:
         response = requests.post(url, headers=headers, json=data)
