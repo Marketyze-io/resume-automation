@@ -122,6 +122,11 @@ def extract_info_from_resume(file_path):
             first_name = "Unknown"
             last_name = "Unknown"
 
+        cn = data.get("college_name")
+        if cn == None:
+            print("NONE!!!")
+            cn = "No Uni"
+
         return {
             "first_name": first_name,
             "last_name": last_name,
