@@ -4,6 +4,7 @@ import subprocess
 # Download required NLTK data files
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
+nltk.download('words')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
