@@ -218,7 +218,7 @@ def process_drive_folder():
 # This ensures that waitress is only used when the application is running on Windows.
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 10000))
     if os.name == "nt":  # Check if the OS is Windows (nt)
         from waitress import serve
         serve(app, host='0.0.0.0', port=port)
