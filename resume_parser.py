@@ -60,14 +60,14 @@ google_creds_json = {
 # Since you already have the JSON content as a dictionary, # you don't need to use json.loads(). 
 # You can pass the dictionary directly to Credentials.from_service_account_info().
 
+app = Flask(__name__)
+
 if google_creds_json:
     creds = Credentials.from_service_account_info(google_creds_json)
 else:
     raise ValueError("Google credentials not found in environment variables")
 
 drive_service = build('drive', 'v3', credentials=creds)
-
-app = Flask(__name__)
 
 notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
 database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
@@ -79,9 +79,9 @@ def list_files_in_folder(folder_id):
     files = results.get('files', [])
 
     # Print the retrieved files to the logs
-    print(f"Files retrieved from Google Drive folder {folder_id}:")
+    logging.info(f"Files retrieved from Google Drive folder {folder_id}:")
     for file in files:
-        print(f"File ID: {file['id']}, Name: {file['name']}")
+        logging.info(f"File ID: {file['id']}, Name: {file['name']}")
 
     return files
 
@@ -171,12 +171,12 @@ def add_to_notion(info):
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()  # This will raise an HTTPError for bad responses
         print(response.json)
+        return response.json()
     except requests.exceptions.HTTPError as e:
         print(f"Error: {e}")
         print(f"Response Content: {response.content}")
         return {"error": f"Failed to add page to Notion: {e}"}
-    
-    return response.json()
+
 
 @app.route('/process_drive_folder', methods=['POST'])
 def process_drive_folder():
