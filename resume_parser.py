@@ -74,7 +74,14 @@ google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8Wc
 def list_files_in_folder(folder_id):
     query = f"'{folder_id}' in parents"
     results = drive_service.files().list(q=query).execute()
-    return results.get('files', [])
+    files = results.get('files', [])
+
+    # Print the retrieved files to the logs
+    print(f"Files retrieved from Google Drive folder {folder_id}:")
+    for file in files:
+        print(f"File ID: {file['id']}, Name: {file['name']}")
+
+    return files
 
 # def download_file(file_id, file_name):
 #     request = drive_service.files().get_media(fileId=file_id)
