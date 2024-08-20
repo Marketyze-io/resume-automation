@@ -107,6 +107,7 @@ def download_file(file_id, file_name):
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
     data = ResumeParser(file_path).get_extracted_data()
+    print(data) # See how the data looks like after parsing by ResumeParser
     logging.debug("Resume loaded.")
 
     if data:
