@@ -147,6 +147,7 @@ def add_to_notion(info):
             "Name": { 
                 "title": [{ 
                     "text": { 
+                        # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
                         "content": f"{info.get('name', 'Unknown Name')}" 
                     }
                 }]
