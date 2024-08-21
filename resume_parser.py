@@ -113,7 +113,8 @@ def extract_info_from_resume(file_path):
     try:
         # Make a call to the OpenAI API
         response = openai.completions.create(
-            model="text-davinci-003",
+            model="gpt-3.5-turbo-instruct",
+            # model="text-davinci-003",
             prompt=prompt,
             max_tokens=200,
             temperature=0.5
