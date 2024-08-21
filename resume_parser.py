@@ -8,7 +8,10 @@ import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
+import time
 import openai
+import httpx
+
 
 # Ensure you have your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -83,6 +86,7 @@ def detect_encoding(file_path):
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
 
+    # Detect file encoding
     encoding = detect_encoding(file_path)
     logging.debug(f"Detected encoding: {encoding}")
 
@@ -95,66 +99,76 @@ def extract_info_from_resume(file_path):
         try:
             with open(file_path, 'r', encoding='ISO-8859-1') as f:
                 resume_content = f.read()
-                print("ISO-8859-1 Encoding used!")
+                logging.debug("ISO-8859-1 Encoding used!")
         except UnicodeDecodeError as e:
-            print(f"Error reading {file_path}: {e}")
+            logging.error(f"Error reading {file_path}: {e}")
             return {}
     
     # with open(file_path, 'rb') as f:
     #     resume_content = f.read()
 
-    # Convert resume content to string if it's not already
-    if isinstance(resume_content, bytes):
-        resume_content = resume_content.decode('utf-8')
+    # Convert resume content to string if it's not already -- commented out as it is repetitive
+    # if the file is opened successfully in either encoding, there's no need to check for bytes and decode it again
+    # if isinstance(resume_content, bytes):
+    #     resume_content = resume_content.decode('utf-8')
 
     # Construct the prompt
     prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
 
     logging.debug("Querying GPT now")
 
-    try:
-        # Make a call to the OpenAI API
-        response = openai.completions.create(
-            model="gpt-3.5-turbo-instruct",
-            # model="text-davinci-003",
-            prompt=prompt,
-            max_tokens=200,
-            temperature=0.5
-        )
+    retries=3
+    delay=5
 
-        # Extract the relevant information from the response
-        gpt_output = response.choices[0].text.strip()
+    for attempt in range(retries):
+        try:
+            # Make a call to the OpenAI API
+            response = openai.completions.create(
+                model="gpt-3.5-turbo-instruct",
+                # model="text-davinci-003",
+                prompt=prompt,
+                max_tokens=200,
+                temperature=0.5
+            )
 
-        # You might need to parse the response based on how GPT returns the data
-        info = {}
-        for line in gpt_output.split('\n'):
-            if "Name:" in line:
-                info['name'] = line.split("Name:")[1].strip()
-            elif "Email:" in line:
-                info['email'] = line.split("Email:")[1].strip()
-            elif "University:" in line:
-                info['university'] = line.split("University:")[1].strip()
-            elif "Major:" in line:
-                info['major'] = line.split("Major:")[1].strip()
+            # Extract the relevant information from the response
+            gpt_output = response.choices[0].text.strip()
 
-        # Handle missing fields
-        if 'name' not in info:
-            info['name'] = 'Unknown Name'
-        if 'email' not in info:
-            info['email'] = 'unknown@unknown.com'
-        if 'university' not in info:
-            info['university'] = 'Unknown University'
-        if 'major' not in info:
-            info['major'] = 'Unknown Major'
+            # Parse the GPT output
+            info = {}
+            for line in gpt_output.split('\n'):
+                if "Name:" in line:
+                    info['name'] = line.split("Name:")[1].strip()
+                elif "Email:" in line:
+                    info['email'] = line.split("Email:")[1].strip()
+                elif "University:" in line:
+                    info['university'] = line.split("University:")[1].strip()
+                elif "Major:" in line:
+                    info['major'] = line.split("Major:")[1].strip()
 
-        logging.debug("Resume loaded.")
-        return info
+            # Handle missing fields with default values
+            info.setdefault('name', 'Unknown Name')
+            info.setdefault('email', 'unknown@unknown.com')
+            info.setdefault('university', 'Unknown University')
+            info.setdefault('major', 'Unknown Major')
 
-    except Exception as e:
-        logging.error(f"Error occurred while querying GPT: {e}")
-        return {}
+            logging.debug("Resume loaded.")
+            return info
 
-    logging.debug("Resume loaded.")
+        
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 429:  # Too Many Requests
+                logging.warning(f"Rate limit exceeded. Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logging.error(f"HTTP Error: {e}")
+                break
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            break
+
+    return {}
+
 
 def add_to_notion(info):
     url = "https://api.notion.com/v1/pages"
@@ -198,28 +212,28 @@ def add_to_notion(info):
                 "title": {info.get('name', 'Unknown Name') }
             },
 
-            "Email": {
-                "id": "n%3AN.",
-                "name": "Email",
-                "type": "email",
-                "email": {info.get('email', 'unknown@unknown.com')}
-            },
+            # "Email": {
+            #     "id": "n%3AN.",
+            #     "name": "Email",
+            #     "type": "email",
+            #     "email": {info.get('email', 'unknown@unknown.com')}
+            # },
 
-            "University": {
-                "id": "%7Ccl%3D",
-                "name": "University",
-                "type": "select",
-                "select": {
-                    "name": university_name
-                }
-            } if university_id else {},  # Only include this if the university matches
+            # "University": {
+            #     "id": "%7Ccl%3D",
+            #     "name": "University",
+            #     "type": "select",
+            #     "select": {
+            #         "name": university_name
+            #     }
+            # } if university_id else {},  # Only include this if the university matches
 
-            "Major": {
-                "id": "3.%3BY",
-                "name": "Major",
-                "type": "rich_text",
-                "rich_text": {info.get('major', 'Unknown Major')}
-            },
+            # "Major": {
+            #     "id": "3.%3BY",
+            #     "name": "Major",
+            #     "type": "rich_text",
+            #     "rich_text": {info.get('major', 'Unknown Major')}
+            # },
         }
     }
 
