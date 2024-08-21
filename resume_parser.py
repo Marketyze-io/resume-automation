@@ -82,9 +82,21 @@ def extract_info_from_resume(file_path):
 
     encoding = detect_encoding(file_path)
     print(f"Detected encoding: {encoding}")
+
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            resume_content = f.read()
+    except UnicodeDecodeError:
+        # If UTF-8 fails, try a different encoding
+        try:
+            with open(file_path, 'r', encoding='ISO-8859-1') as f:
+                resume_content = f.read()
+        except UnicodeDecodeError as e:
+            print(f"Error reading {file_path}: {e}")
+            return {}
     
-    with open(file_path, 'rb') as f:
-        resume_content = f.read()
+    # with open(file_path, 'rb') as f:
+    #     resume_content = f.read()
 
     # Convert resume content to string if it's not already
     if isinstance(resume_content, bytes):
