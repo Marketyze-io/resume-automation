@@ -156,16 +156,21 @@ def extract_info_from_resume(file_path):
             return info
 
         
+
         except httpx.HTTPStatusError as e:
-            logging.debug(e.response.status_code)
+            logging.error(f"HTTP error occurred: {e} - Status Code: {e.response.status_code}")
             if e.response.status_code == 429:  # Too Many Requests
                 logging.warning(f"Rate limit exceeded. Retrying in {delay} seconds...")
                 time.sleep(delay)
             else:
                 logging.error(f"HTTP Error: {e}")
-                break
+                break  # Stop retrying on other HTTP errors
+        except httpx.RequestError as e:
+            logging.error(f"Request error occurred: {e}")
+            break  # Stop retrying on request errors
         except Exception as e:
             logging.error(f"An unexpected error occurred: {e}")
+            logging.error(f"{e.response.status_code}")
             break
 
     return {}
@@ -211,12 +216,19 @@ def add_to_notion(info):
                 "name": "Name",
                 "type": "title",
                 # "title": {info.get('name', 'Unknown Name') }
-                "title": [{
-                    "text": { 
-                        # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
-                        "content": f"{info.get('name', 'Unknown Name')}" 
+                # "title": [{
+                #     "text": { 
+                #         # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
+                #         "content": f"{info.get('name', 'Unknown Name')}" 
+                #     }
+                # }]
+                "title": [
+                    {
+                        "text": {
+                            "content": info.get('name', 'Unknown Name')
+                        }
                     }
-                }]
+                ]
             },
 
             # "Email": {
