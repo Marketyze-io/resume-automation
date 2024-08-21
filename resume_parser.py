@@ -84,7 +84,7 @@ def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
 
     encoding = detect_encoding(file_path)
-    print(f"Detected encoding: {encoding}")
+    logging.debug(f"Detected encoding: {encoding}")
 
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
