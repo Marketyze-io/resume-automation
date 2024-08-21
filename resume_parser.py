@@ -171,7 +171,12 @@ def extract_info_from_resume(file_path):
         except Exception as e:
             logging.error(f"An unexpected error occurred: {e}")
             logging.error(f"{e.response.status_code}")
-            break
+            if e.response.status_code == 429:  # Too Many Requests
+                logging.warning(f"Rate limit exceeded. Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logging.error(f"Other Error: {e}")
+                break
 
     return {}
 
@@ -213,7 +218,7 @@ def add_to_notion(info):
 
             "Name": {
                 "id": "title",
-                "name": "Name",
+                #"name": "Name",
                 "type": "title",
                 # "title": {info.get('name', 'Unknown Name') }
                 # "title": [{
