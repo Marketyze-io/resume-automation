@@ -110,6 +110,8 @@ def extract_info_from_resume(file_path):
     # Construct the prompt
     prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
 
+    logging.debug("Querying GPT now")
+    
     try:
         # Make a call to the OpenAI API
         response = openai.completions.create(
