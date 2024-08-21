@@ -171,13 +171,13 @@ def add_to_notion(info):
                 }]
             },
 
-            "Email": {
-                "rich_text": [{ 
-                    "text": { 
-                        "content": info.get('email', 'unknown@unknown.com') 
-                    }
-                }]
-            },
+            # "Email": {
+            #     "rich_text": [{ 
+            #         "text": { 
+            #             "content": info.get('email', 'unknown@unknown.com') 
+            #         }
+            #     }]
+            # },
 
             # "Email": { 
             #     "email": info.get('email', 'unknown@unknown.com')
