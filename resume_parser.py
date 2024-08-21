@@ -8,6 +8,10 @@ import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
+import openai
+
+# Ensure you have your OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY", "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")
 
 
 # Load Google credentials from environment variable
@@ -26,34 +30,6 @@ google_creds_json = {
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/resume-automation%40automations-415608.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 }
-
-
-# google_creds_json = {
-#     "web":{
-#     "client_id":"434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com",
-#     "project_id":"automations-415608",
-#     "auth_uri":"https://accounts.google.com/o/oauth2/auth",
-#     "token_uri":"https://oauth2.googleapis.com/token",
-#     "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-#     "client_secret":"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",???????
-#     "redirect_uris":["https://resume-automation.onrender.com/oauth2callback"],????
-#     "javascript_origins":["https://resume-automation.onrender.com"]?????
-#     }
-# }
-
-# google_creds_json = {
-#     "type": "service_account",?????
-#     "project_id":"automations-415608",
-#     "private_key_id": "your-private-key-id",?????????????????
-#     "private_key": "your-private-key",?????????????????
-#     "client_email": "your-client-email@your-project-id.iam.gserviceaccount.com",?????????????
-#     "client_id":"434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com",
-#     "auth_uri":"https://accounts.google.com/o/oauth2/auth",
-#     "token_uri":"https://oauth2.googleapis.com/token",
-#     "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-#     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-client-email%40your-project-id.iam.gserviceaccount.com"?????
-# }
-
 
 # The error you're encountering is because you're trying to load a dictionary (google_creds_json) 
 # using json.loads(), which expects a JSON string, not a dictionary. 
@@ -85,15 +61,6 @@ def list_files_in_folder(folder_id):
 
     return files
 
-# def download_file(file_id, file_name):
-#     request = drive_service.files().get_media(fileId=file_id)
-#     fh = open(file_name, 'wb')
-#     downloader = MediaIoBaseDownload(fh, request)
-#     done = False
-#     while done is False:
-#         status, done = downloader.next_chunk()
-#     return file_name
-
 def download_file(file_id, file_name):
     request = drive_service.files().get_media(fileId=file_id)
     with open(file_name, 'wb') as fh:
@@ -106,39 +73,59 @@ def download_file(file_id, file_name):
 
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
-    data = ResumeParser(file_path).get_extracted_data()
-    print(data) # See how the data looks like after parsing by ResumeParser
+    
+    with open(file_path, 'rb') as f:
+        resume_content = f.read()
+
+    # Convert resume content to string if it's not already
+    if isinstance(resume_content, bytes):
+        resume_content = resume_content.decode('utf-8')
+
+    # Construct the prompt
+    prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
+
+    try:
+        # Make a call to the OpenAI API
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            max_tokens=200,
+            temperature=0.5
+        )
+
+        # Extract the relevant information from the response
+        gpt_output = response.choices[0].text.strip()
+
+        # You might need to parse the response based on how GPT returns the data
+        info = {}
+        for line in gpt_output.split('\n'):
+            if "Name:" in line:
+                info['name'] = line.split("Name:")[1].strip()
+            elif "Email:" in line:
+                info['email'] = line.split("Email:")[1].strip()
+            elif "University:" in line:
+                info['university'] = line.split("University:")[1].strip()
+            elif "Major:" in line:
+                info['major'] = line.split("Major:")[1].strip()
+
+        # Handle missing fields
+        if 'name' not in info:
+            info['name'] = 'Unknown Name'
+        if 'email' not in info:
+            info['email'] = 'unknown@unknown.com'
+        if 'university' not in info:
+            info['university'] = 'Unknown University'
+        if 'major' not in info:
+            info['major'] = 'Unknown Major'
+
+        logging.debug("Resume loaded.")
+        return info
+
+    except Exception as e:
+        logging.error(f"Error occurred while querying GPT: {e}")
+        return {}
+
     logging.debug("Resume loaded.")
-
-    if data:
-        name = data.get("name")
-        # Handle name splitting safely
-        if name:
-            name_parts = name.split()
-            first_name = name_parts[0] if len(name_parts) > 0 else "Unknown"
-            last_name = name_parts[-1] if len(name_parts) > 1 else "Unknown"
-        else:
-            name = "Unknown"
-            first_name = "Unknown"
-            last_name = "Unknown"
-
-        cn = data.get("college_name")
-        if cn == None:
-            print("NONE!!!")
-            cn = "No Uni"
-
-        return {
-            "first_name": first_name,
-            "last_name": last_name,
-            "name": name,
-            "email": data.get("email", "unknown@unknown.com"),
-            #"mobile_no": data.get("mobile_number", "No Number Provided"),
-            "university": cn,
-            #"university": data.get("college_name", "No University Provided"),
-            #"linkedin_profile": data.get("linkedin", "No LinkedIn"),
-            #"cv": file_path
-        }
-    return {}
 
 def add_to_notion(info):
     url = "https://api.notion.com/v1/pages"
@@ -147,59 +134,84 @@ def add_to_notion(info):
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28"
     }
-    # data = {
-    #     "parent": { "database_id": database_id },
-    #     "properties": {
-    #         "First NameF": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
-    #         "Last Name": { "rich_text": [{ "text": { "content": info.get("last_name", "") }}]},
-    #         "Mobile No": { "phone_number": info.get("mobile_no", "") },
-    #         "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
-    #         "LinkedIn Profile": { "url": info.get("linkedin_profile", "") },
-    #         "CV": { "files": [{ "name": "CV", "external": { "url": info.get("cv", "") }}]}
-    #     }
-    # }
+
+    # Replace 'university_name' with the name parsed from the resume
+    university_name = info.get('university', 'Unknown University')
+
+    # Find the corresponding university in the dropdown options
+    university_options = {
+        "Chulalongkorn University": "e4620776-71b2-40ef-b6e4-ee9587f96964",
+        "Thammasat University": "a7deee28-61ac-4cc0-a6c4-5eee9d54a624",
+        "Kasetsart University": "6316161c-a8ae-4728-8947-8f890fe70fdb",
+        "Mahidol University": "7a6b4b91-2073-4011-a2a9-ec4598839d4f",
+        "Mahidol University International College": "0e0ef175-c024-40cc-8b5c-38cf5cc2f658",
+        "Srinakharinwirot University": "cbc2f335-2254-4fe1-a00f-d5b4a28dec05",
+        "University of British Columbia": "94a16bd9-46b3-4c62-8eaf-5834b62c6578",
+        "Tokyo International University": "16614773-dd1f-400c-b5e1-4c047b940764",
+        "Naresuan University International College": "224be10c-3ffb-448d-acef-9d01aa6f64c9",
+        "National University Singapore": "e66780d2-c7df-45aa-9156-8c827e18cf0d",
+        "University of Dundee": "e09764a5-0be2-4345-8803-8fb061485e84",
+        "New York University": "fcaa6621-7ee7-4902-856d-d1892039665d"
+    }
+
+    university_id = university_options.get(university_name, "Other University")
+
 
     data = {
         "parent": { "database_id": database_id },
         "properties": {
-            "Name": { 
-                "title": [{ 
-                    "text": { 
-                        # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
-                        "content": f"{info.get('name', 'Unknown Name')}" 
-                    }
-                }]
+
+            "Name": {
+                "id": "title",
+                "name": "Name",
+                "type": "title",
+                "title": {"content": info.get('name', 'Unknown Name') }
             },
 
-            # "Email": {
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get('email', 'unknown@unknown.com') 
-            #         }
-            #     }]
-            # },
-
-            "Email": { 
-                "email": info.get('email', 'unknown@unknown.com')
-            },
-            # "University": { 
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get("university", "No University Provided") 
-            #         }
-            #     }]
-            # },
-            # "University": { 
+            # "Name": { 
             #     "title": [{ 
             #         "text": { 
-            #             "content": info.get('university', 'No University Provided') 
+            #             "content": info.get('name', 'Unknown Name') 
             #         }
             #     }]
             # },
+
+            "Email": {
+                "id": "n%3AN.",
+                "name": "Email",
+                "type": "email",
+                "email": {info.get('email', 'unknown@unknown.com')}
+            },
+
+            # "Email": { 
+            #     "email": info.get('email', 'unknown@unknown.com')
+            # },
+            "University": {
+                "id": "%7Ccl%3D",
+                "name": "University",
+                "type": "select",
+                "select": {
+                    "name": university_name
+                }
+            } if university_id else {},  # Only include this if the university matches
+
+            # "Major": { 
+            #     "rich_text": [{ 
+            #         "text": { 
+            #             "content": info.get('major', 'Unknown Major') 
+            #         }
+            #     }]
+            # },
+
+            "Major": {
+                "id": "3.%3BY",
+                "name": "Major",
+                "type": "rich_text",
+                "rich_text": {info.get('major', 'Unknown Major')}
+            },
         }
     }
 
-    
     try:
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()  # This will raise an HTTPError for bad responses
@@ -234,35 +246,6 @@ def process_drive_folder():
             responses.append({"error": str(e)})
     return jsonify(responses)
 
-# The error ModuleNotFoundError: No module named 'fcntl' occurs because the fcntl module 
-# is specific to Unix-like operating systems (such as Linux and macOS) and is not available on Windows.
-
-# How to Resolve the Issue
-# Since you're working on a Windows environment, you'll need to 
-# avoid using any functionality that relies on fcntl when running your application locally on Windows. 
-
-# if __name__ == "__main__":
-#     port = int(os.environ.get('PORT', 5000))
-#     if os.getenv("FLASK_ENV") == "development":
-#         app.run(debug=True, host='0.0.0.0', port=port) # If Linux or Mac
-#     else:
-#         from waitress import serve
-#         serve(app, host='0.0.0.0', port=port) # If windows
-
-# Explanation:
-# os.name: The check os.name == "nt" is the correct way to determine if the script is running on a Windows system. 
-# nt refers to Windows NT, and this is a reliable way to identify the Windows environment.
-
-# FLASK_ENV: Using FLASK_ENV to distinguish between development and production environments is common, 
-# but in this case, since the problem is platform-specific, checking the operating system is a better approach.
-
-# Summary:
-# Windows: Uses waitress for serving the application.
-# Linux/Mac: Uses the default Flask server (or you can add the option to run gunicorn).
-
-# Operating System Check: I've replaced the FLASK_ENV check with os.name == "nt", 
-# which directly checks if the environment is Windows. 
-# This ensures that waitress is only used when the application is running on Windows.
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 10000))

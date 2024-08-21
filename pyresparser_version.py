@@ -1,3 +1,4 @@
+'''
 import logging
 logging.basicConfig(level=logging.INFO)
 from pyresparser import ResumeParser
@@ -213,3 +214,4 @@ if __name__ == "__main__":
         serve(app, host='0.0.0.0', port=port)
     else:
         app.run(debug=True, host='0.0.0.0', port=port)
+'''
