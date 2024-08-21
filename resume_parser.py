@@ -86,11 +86,13 @@ def extract_info_from_resume(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             resume_content = f.read()
+            print("UTF-8 Encoding used!")
     except UnicodeDecodeError:
         # If UTF-8 fails, try a different encoding
         try:
             with open(file_path, 'r', encoding='ISO-8859-1') as f:
                 resume_content = f.read()
+                print("ISO-8859-1 Encoding used!")
         except UnicodeDecodeError as e:
             print(f"Error reading {file_path}: {e}")
             return {}
