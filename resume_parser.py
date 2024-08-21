@@ -1,6 +1,6 @@
 import logging
 logging.basicConfig(level=logging.INFO)
-from pyresparser import ResumeParser
+#from pyresparser import ResumeParser
 import requests
 from flask import Flask, request, jsonify
 import os
