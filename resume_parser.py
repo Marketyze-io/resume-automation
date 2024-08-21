@@ -188,7 +188,7 @@ def add_to_notion(info):
                 "id": "title",
                 "name": "Name",
                 "type": "title",
-                "title": {"content": info.get('name', 'Unknown Name') }
+                "title": {info.get('name', 'Unknown Name') }
             },
 
             # "Name": { 
