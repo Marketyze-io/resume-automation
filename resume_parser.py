@@ -216,20 +216,28 @@ def add_to_notion(info):
         "parent": { "database_id": database_id },
         "properties": {
 
-            "Name": {
-                "id": "title",
-                #"name": "Name",
-                "type": "title",
-                # "title": {info.get('name', 'Unknown Name') }
-                # "title": [{
-                #     "text": { 
-                #         # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
-                #         "content": f"{info.get('name', 'Unknown Name')}" 
-                #     }
-                # }]
+            # "Name": {
+            #     "id": "title",
+            #     #"name": "Name",
+            #     # "type": "title",
+            #     # "title": {info.get('name', 'Unknown Name') }
+            #     # "title": [{
+            #     #     "text": { 
+            #     #         # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
+            #     #         "content": f"{info.get('name', 'Unknown Name')}" 
+            #     #     }
+            #     # }]
+            #     "title": [{ 
+            #         "text": { 
+            #             # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
+            #             "content": f"{info.get('name', 'Unknown Name')}" 
+            #         }
+            #     }]
+            # },
+
+            "Name": { 
                 "title": [{ 
-                    "text": { 
-                        # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
+                    "text": {  
                         "content": f"{info.get('name', 'Unknown Name')}" 
                     }
                 }]
