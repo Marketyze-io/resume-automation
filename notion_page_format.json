@@ -1,0 +1,425 @@
+{
+    "object": "database",
+    "id": "a4ab10ca-7b27-411e-bcb3-664b04c1d399",
+    "cover": null,
+    "icon": {
+        "type": "emoji",
+        "emoji": "🖼️"
+    },
+    "created_time": "2024-08-13T07:56:00.000Z",
+    "created_by": {
+        "object": "user",
+        "id": "25afb6f2-5ae8-42f8-8f0a-c63e611fdd68"
+    },
+    "last_edited_by": {
+        "object": "user",
+        "id": "25afb6f2-5ae8-42f8-8f0a-c63e611fdd68"
+    },
+    "last_edited_time": "2024-08-21T07:06:00.000Z",
+    "title": [
+        {
+            "type": "text",
+            "text": {
+                "content": "Ambassador Applicant Tracker — Testing",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": "Ambassador Applicant Tracker — Testing",
+            "href": null
+        }
+    ],
+    "description": [
+        {
+            "type": "text",
+            "text": {
+                "content": "Use this template to schedule and track candidates moving through your recruiting process.\nOpen any page to capture application materials, notes from interviewers, next steps, and more.\nAnyone on any team can contribute to the process directly.\n\n",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": "Use this template to schedule and track candidates moving through your recruiting process.\nOpen any page to capture application materials, notes from interviewers, next steps, and more.\nAnyone on any team can contribute to the process directly.\n\n",
+            "href": null
+        },
+        {
+            "type": "text",
+            "text": {
+                "content": "↓",
+                "link": null
+            },
+            "annotations": {
+                "bold": true,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": "↓",
+            "href": null
+        },
+        {
+            "type": "text",
+            "text": {
+                "content": " Click ",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": " Click ",
+            "href": null
+        },
+        {
+            "type": "text",
+            "text": {
+                "content": "By Stage",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": true,
+                "color": "default"
+            },
+            "plain_text": "By Stage",
+            "href": null
+        },
+        {
+            "type": "text",
+            "text": {
+                "content": " to organize this info as a table or see only engineering candidates.",
+                "link": null
+            },
+            "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+            },
+            "plain_text": " to organize this info as a table or see only engineering candidates.",
+            "href": null
+        }
+    ],
+    "is_inline": false,
+    "properties": {
+        "Major": {
+            "id": "3.%3BY",
+            "name": "Major",
+            "type": "rich_text",
+            "rich_text": {}
+        },
+        "Interview note": {
+            "id": "%3Cj~H",
+            "name": "Interview note",
+            "type": "rich_text",
+            "rich_text": {}
+        },
+        "GPA": {
+            "id": "D3u%3C",
+            "name": "GPA",
+            "type": "number",
+            "number": {
+                "format": "number"
+            }
+        },
+        "Added": {
+            "id": "EZT-",
+            "name": "Added",
+            "type": "created_time",
+            "created_time": {}
+        },
+        "Analytical test score": {
+            "id": "L%40TO",
+            "name": "Analytical test score",
+            "type": "rich_text",
+            "rich_text": {}
+        },
+        "Stage": {
+            "id": "MYcP",
+            "name": "Stage",
+            "type": "select",
+            "select": {
+                "options": [
+                    {
+                        "id": "33ce0365-417d-45ee-ac7f-00066ab8c738",
+                        "name": "Screen",
+                        "color": "red",
+                        "description": null
+                    },
+                    {
+                        "id": "510e4fba-afaa-4d6c-a76a-f5b1e540f574",
+                        "name": "Interview",
+                        "color": "yellow",
+                        "description": null
+                    },
+                    {
+                        "id": "7d53c2dc-f0bc-490e-b05b-94d3afc1e2ba",
+                        "name": "Offer",
+                        "color": "blue",
+                        "description": null
+                    },
+                    {
+                        "id": "fb70de99-9ca2-40d5-ba78-1fafef4610bc",
+                        "name": "Hired 🤙",
+                        "color": "green",
+                        "description": null
+                    },
+                    {
+                        "id": "a4ddca30-e097-45ba-9e60-456f44316aaf",
+                        "name": "Rejection",
+                        "color": "brown",
+                        "description": null
+                    },
+                    {
+                        "id": "036d8237-783b-4fad-b05a-ff6a85a6cc3d",
+                        "name": "Maybe",
+                        "color": "default",
+                        "description": null
+                    }
+                ]
+            }
+        },
+        "Hiring Manager": {
+            "id": "S%2FSh",
+            "name": "Hiring Manager",
+            "type": "people",
+            "people": {}
+        },
+        "Availability to": {
+            "id": "%60EQk",
+            "name": "Availability to",
+            "type": "date",
+            "date": {}
+        },
+        "Digital Marketing Interest": {
+            "id": "mz%3B%7D",
+            "name": "Digital Marketing Interest",
+            "type": "select",
+            "select": {
+                "options": [
+                    {
+                        "id": "d157a6d8-2462-4687-90e7-eed524575400",
+                        "name": "Yes",
+                        "color": "blue",
+                        "description": null
+                    },
+                    {
+                        "id": "e15832ba-ecc7-45ed-a502-7aa9248d9f94",
+                        "name": "No",
+                        "color": "orange",
+                        "description": null
+                    },
+                    {
+                        "id": "8972899a-2c80-4477-8b3c-a240c5d03c74",
+                        "name": "Not sure",
+                        "color": "default",
+                        "description": null
+                    }
+                ]
+            }
+        },
+        "Email": {
+            "id": "n%3AN.",
+            "name": "Email",
+            "type": "email",
+            "email": {}
+        },
+        "Availability from": {
+            "id": "qU%7Cu",
+            "name": "Availability from",
+            "type": "date",
+            "date": {}
+        },
+        "Source": {
+            "id": "xc3X",
+            "name": "Source",
+            "type": "select",
+            "select": {
+                "options": [
+                    {
+                        "id": "add21229-2d8f-4e31-8d87-e47d9cc4510f",
+                        "name": "Tasket",
+                        "color": "green",
+                        "description": null
+                    },
+                    {
+                        "id": "6be82aef-efb4-481c-b75a-f872f566f2c6",
+                        "name": "Direct email",
+                        "color": "red",
+                        "description": null
+                    },
+                    {
+                        "id": "e85219ad-b0c0-40e5-be5c-39b20e869323",
+                        "name": "Tasket outreach",
+                        "color": "green",
+                        "description": null
+                    },
+                    {
+                        "id": "1158df0c-9cab-4974-9db4-cc74434f6ce8",
+                        "name": "FB Group",
+                        "color": "blue",
+                        "description": null
+                    },
+                    {
+                        "id": "ab57ea8d-d06e-4d3a-ac63-ad6f274b3fc4",
+                        "name": "NUS Partnering",
+                        "color": "brown",
+                        "description": null
+                    },
+                    {
+                        "id": "eab695f2-b741-4137-b809-441179111df3",
+                        "name": "Pagoda Partnering",
+                        "color": "yellow",
+                        "description": null
+                    },
+                    {
+                        "id": "e9b3d47e-a5b9-4a89-9720-24160a232015",
+                        "name": "LinkedIn",
+                        "color": "blue",
+                        "description": null
+                    }
+                ]
+            }
+        },
+        "University": {
+            "id": "%7Ccl%3D",
+            "name": "University",
+            "type": "select",
+            "select": {
+                "options": [
+                    {
+                        "id": "e4620776-71b2-40ef-b6e4-ee9587f96964",
+                        "name": "Chulalongkorn University",
+                        "color": "pink",
+                        "description": null
+                    },
+                    {
+                        "id": "a7deee28-61ac-4cc0-a6c4-5eee9d54a624",
+                        "name": "Thammasat University",
+                        "color": "yellow",
+                        "description": null
+                    },
+                    {
+                        "id": "6316161c-a8ae-4728-8947-8f890fe70fdb",
+                        "name": "Kasetsart University",
+                        "color": "green",
+                        "description": null
+                    },
+                    {
+                        "id": "7a6b4b91-2073-4011-a2a9-ec4598839d4f",
+                        "name": "Mahidol University",
+                        "color": "brown",
+                        "description": null
+                    },
+                    {
+                        "id": "0e0ef175-c024-40cc-8b5c-38cf5cc2f658",
+                        "name": "Mahidol University International College",
+                        "color": "blue",
+                        "description": null
+                    },
+                    {
+                        "id": "cbc2f335-2254-4fe1-a00f-d5b4a28dec05",
+                        "name": "Srinakharinwirot University",
+                        "color": "blue",
+                        "description": null
+                    },
+                    {
+                        "id": "94a16bd9-46b3-4c62-8eaf-5834b62c6578",
+                        "name": "University of British Columbia",
+                        "color": "orange",
+                        "description": null
+                    },
+                    {
+                        "id": "16614773-dd1f-400c-b5e1-4c047b940764",
+                        "name": "Tokyo International University",
+                        "color": "pink",
+                        "description": null
+                    },
+                    {
+                        "id": "224be10c-3ffb-448d-acef-9d01aa6f64c9",
+                        "name": "Naresuan University International College",
+                        "color": "purple",
+                        "description": null
+                    },
+                    {
+                        "id": "e66780d2-c7df-45aa-9156-8c827e18cf0d",
+                        "name": "National University Singapore",
+                        "color": "red",
+                        "description": null
+                    },
+                    {
+                        "id": "e09764a5-0be2-4345-8803-8fb061485e84",
+                        "name": "University of Dundee",
+                        "color": "default",
+                        "description": null
+                    },
+                    {
+                        "id": "fcaa6621-7ee7-4902-856d-d1892039665d",
+                        "name": "New York University",
+                        "color": "gray",
+                        "description": null
+                    }
+                ]
+            }
+        },
+        "Name": {
+            "id": "title",
+            "name": "Name",
+            "type": "title",
+            "title": {}
+        },
+        "Link to CV": {
+            "id": "prop_1",
+            "name": "Link to CV",
+            "type": "url",
+            "url": {}
+        },
+        "Role": {
+            "id": "prop_2",
+            "name": "Role",
+            "type": "select",
+            "select": {
+                "options": [
+                    {
+                        "id": "7edd9639-937e-4e59-936d-81b04a1bfbcf",
+                        "name": "Ambassodor",
+                        "color": "red",
+                        "description": null
+                    }
+                ]
+            }
+        }
+    },
+    "parent": {
+        "type": "page_id",
+        "page_id": "9dd48db7-b188-4680-aedb-6b8475b754a8"
+    },
+    "url": "https://www.notion.so/a4ab10ca7b27411ebcb3664b04c1d399",
+    "public_url": null,
+    "archived": false,
+    "in_trash": false,
+    "developer_survey": "https://notionup.typeform.com/to/bllBsoI4?utm_source=postman",
+    "request_id": "7d801219-f2d4-43e0-84a9-464d391ae3e0"
+}

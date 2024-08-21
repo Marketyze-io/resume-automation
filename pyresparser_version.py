@@ -27,34 +27,6 @@ google_creds_json = {
   "universe_domain": "googleapis.com"
 }
 
-
-# google_creds_json = {
-#     "web":{
-#     "client_id":"434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com",
-#     "project_id":"automations-415608",
-#     "auth_uri":"https://accounts.google.com/o/oauth2/auth",
-#     "token_uri":"https://oauth2.googleapis.com/token",
-#     "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-#     "client_secret":"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",???????
-#     "redirect_uris":["https://resume-automation.onrender.com/oauth2callback"],????
-#     "javascript_origins":["https://resume-automation.onrender.com"]?????
-#     }
-# }
-
-# google_creds_json = {
-#     "type": "service_account",?????
-#     "project_id":"automations-415608",
-#     "private_key_id": "your-private-key-id",?????????????????
-#     "private_key": "your-private-key",?????????????????
-#     "client_email": "your-client-email@your-project-id.iam.gserviceaccount.com",?????????????
-#     "client_id":"434069935105-ofp9sru97mf5vh650mc37l2n16ve9kme.apps.googleusercontent.com",
-#     "auth_uri":"https://accounts.google.com/o/oauth2/auth",
-#     "token_uri":"https://oauth2.googleapis.com/token",
-#     "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-#     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-client-email%40your-project-id.iam.gserviceaccount.com"?????
-# }
-
-
 # The error you're encountering is because you're trying to load a dictionary (google_creds_json) 
 # using json.loads(), which expects a JSON string, not a dictionary. 
 # Since you already have the JSON content as a dictionary, # you don't need to use json.loads(). 
@@ -147,17 +119,6 @@ def add_to_notion(info):
         "Content-Type": "application/json",
         "Notion-Version": "2022-06-28"
     }
-    # data = {
-    #     "parent": { "database_id": database_id },
-    #     "properties": {
-    #         "First NameF": { "title": [{ "text": { "content": info.get("first_name", "") }}]},
-    #         "Last Name": { "rich_text": [{ "text": { "content": info.get("last_name", "") }}]},
-    #         "Mobile No": { "phone_number": info.get("mobile_no", "") },
-    #         "University": { "rich_text": [{ "text": { "content": info.get("university", "") }}]},
-    #         "LinkedIn Profile": { "url": info.get("linkedin_profile", "") },
-    #         "CV": { "files": [{ "name": "CV", "external": { "url": info.get("cv", "") }}]}
-    #     }
-    # }
 
     data = {
         "parent": { "database_id": database_id },
@@ -171,31 +132,12 @@ def add_to_notion(info):
                 }]
             },
 
-            # "Email": {
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get('email', 'unknown@unknown.com') 
-            #         }
-            #     }]
-            # },
-
-            "Email": { 
-                "email": info.get('email', 'unknown@unknown.com')
+            "Email": {
+                "id": "n%3AN.",
+                "name": "Email",
+                "type": "email",
+                "email": {info.get('email', 'unknown@unknown.com')}
             },
-            # "University": { 
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get("university", "No University Provided") 
-            #         }
-            #     }]
-            # },
-            # "University": { 
-            #     "title": [{ 
-            #         "text": { 
-            #             "content": info.get('university', 'No University Provided') 
-            #         }
-            #     }]
-            # },
         }
     }
 
