@@ -195,14 +195,6 @@ def add_to_notion(info):
                 "title": {info.get('name', 'Unknown Name') }
             },
 
-            # "Name": { 
-            #     "title": [{ 
-            #         "text": { 
-            #             "content": info.get('name', 'Unknown Name') 
-            #         }
-            #     }]
-            # },
-
             "Email": {
                 "id": "n%3AN.",
                 "name": "Email",
@@ -210,9 +202,6 @@ def add_to_notion(info):
                 "email": {info.get('email', 'unknown@unknown.com')}
             },
 
-            # "Email": { 
-            #     "email": info.get('email', 'unknown@unknown.com')
-            # },
             "University": {
                 "id": "%7Ccl%3D",
                 "name": "University",
@@ -221,14 +210,6 @@ def add_to_notion(info):
                     "name": university_name
                 }
             } if university_id else {},  # Only include this if the university matches
-
-            # "Major": { 
-            #     "rich_text": [{ 
-            #         "text": { 
-            #             "content": info.get('major', 'Unknown Major') 
-            #         }
-            #     }]
-            # },
 
             "Major": {
                 "id": "3.%3BY",
