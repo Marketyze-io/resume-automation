@@ -211,12 +211,12 @@ def add_to_notion(info):
                 "name": "Name",
                 "type": "title",
                 # "title": {info.get('name', 'Unknown Name') }
-                "title": {
+                "title": [{
                     "text": { 
                         # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
                         "content": f"{info.get('name', 'Unknown Name')}" 
                     }
-                }
+                }]
             },
 
             # "Email": {
