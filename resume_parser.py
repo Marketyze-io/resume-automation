@@ -59,6 +59,7 @@ def list_files_in_folder(folder_id):
     for file in files:
         logging.info(f"File ID: {file['id']}, Name: {file['name']}")
 
+    logging.debug("Listed files in folder!")
     return files
 
 def download_file(file_id, file_name):
@@ -68,6 +69,8 @@ def download_file(file_id, file_name):
         done = False
         while done is False:
             status, done = downloader.next_chunk()
+    
+    logging.debug("File is downloaded!")
     return file_name
 
 import chardet
@@ -178,7 +181,8 @@ def add_to_notion(info):
     }
 
     university_id = university_options.get(university_name, "Other University")
-
+    
+    logging.debug("Start processing data to be sent to Notion!")
 
     data = {
         "parent": { "database_id": database_id },
@@ -252,6 +256,7 @@ def add_to_notion(info):
         print(f"An unexpected error occurred: {e}")
         return {"error": f"An unexpected error occurred: {e}"}
     
+    logging.debug("Data sent to Notion!")
     return response.json()
 
 
