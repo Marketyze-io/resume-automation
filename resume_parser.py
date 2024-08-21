@@ -195,30 +195,30 @@ def add_to_notion(info):
                 "id": "title",
                 "name": "Name",
                 "type": "title",
-                "title": {info.get('name', 'Unknown Name') }
+                "title": info.get('name', 'Unknown Name')
             },
 
             "Email": {
                 "id": "n%3AN.",
                 "name": "Email",
                 "type": "email",
-                "email": {info.get('email', 'unknown@unknown.com')}
+                "email": info.get('email', 'unknown@unknown.com')
             },
 
-            "University": {
-                "id": "%7Ccl%3D",
-                "name": "University",
-                "type": "select",
-                "select": {
-                    "name": university_name
-                }
-            } if university_id else {},  # Only include this if the university matches
+            # "University": {
+            #     "id": "%7Ccl%3D",
+            #     "name": "University",
+            #     "type": "select",
+            #     "select": {
+            #         "name": university_name
+            #     }
+            # } if university_id else {},  # Only include this if the university matches
 
             "Major": {
                 "id": "3.%3BY",
                 "name": "Major",
                 "type": "rich_text",
-                "rich_text": {info.get('major', 'Unknown Major')}
+                "rich_text": info.get('major', 'Unknown Major')
             },
         }
     }
