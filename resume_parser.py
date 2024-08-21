@@ -11,7 +11,7 @@ from google.oauth2.service_account import Credentials
 import openai
 
 # Ensure you have your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY", "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")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 # Load Google credentials from environment variable
