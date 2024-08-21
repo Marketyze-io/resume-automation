@@ -70,9 +70,18 @@ def download_file(file_id, file_name):
             status, done = downloader.next_chunk()
     return file_name
 
+import chardet
+def detect_encoding(file_path):
+    with open(file_path, 'rb') as f:
+        result = chardet.detect(f.read())
+    return result['encoding']
+
 
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
+
+    encoding = detect_encoding(file_path)
+    print(f"Detected encoding: {encoding}")
     
     with open(file_path, 'rb') as f:
         resume_content = f.read()
