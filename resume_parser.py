@@ -157,6 +157,7 @@ def extract_info_from_resume(file_path):
 
         
         except httpx.HTTPStatusError as e:
+            logging.debug(e.response.status_code)
             if e.response.status_code == 429:  # Too Many Requests
                 logging.warning(f"Rate limit exceeded. Retrying in {delay} seconds...")
                 time.sleep(delay)
@@ -265,7 +266,9 @@ def process_drive_folder():
     for file in files:
         try:
             file_path = download_file(file['id'], file['name'])
+            logging.debug("FILE DOWNLOADED")
             info = extract_info_from_resume(file_path)
+            logging.debug("INFO EXTRACTED FROM RESUME")
             response = add_to_notion(info)
             responses.append(response)
         except Exception as e:
