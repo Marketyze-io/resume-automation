@@ -260,12 +260,12 @@ def add_to_notion(info):
             #     }
             # } if university_id else {},  # Only include this if the university matches
 
-            # "Major": {
-            #     "id": "3.%3BY",
-            #     "name": "Major",
-            #     "type": "rich_text",
-            #     "rich_text": {info.get('major', 'Unknown Major')}
-            # },
+            "Major": {
+                # "id": "3.%3BY",
+                # "name": "Major",
+                # "type": "rich_text",
+                "rich_text": {info.get('major', 'Unknown Major')}
+            },
         }
     }
 
