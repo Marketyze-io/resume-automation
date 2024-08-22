@@ -264,7 +264,11 @@ def add_to_notion(info):
                 # "id": "3.%3BY",
                 # "name": "Major",
                 # "type": "rich_text",
-                "rich_text": f"{info.get('major', 'Unknown Major')}"
+                "rich_text": [{
+                    "text": {
+                        f"{info.get('major', 'Unknown Major')}"
+                    }
+                }]
             },
         }
     }
