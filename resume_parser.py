@@ -248,11 +248,7 @@ def add_to_notion(info):
                 # "name": "Email",
                 # "type": "email",
                 #"email": {info.get('email', 'unknown@unknown.com')}
-                "email": [{ 
-                    "text": {  
-                        "content": f"{info.get('email', 'unknown@unknown.com')}" 
-                    }
-                }]
+                "email": f"{info.get('email', 'unknown@unknown.com')}"                 
             },
 
             # "University": {
