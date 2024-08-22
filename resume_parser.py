@@ -266,7 +266,7 @@ def add_to_notion(info):
                 # "type": "rich_text",
                 "rich_text": [{
                     "text": {
-                        f"{info.get('major', 'Unknown Major')}"
+                        "content": f"{info.get('major', 'Unknown Major')}"
                     }
                 }]
             },
