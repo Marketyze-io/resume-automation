@@ -243,12 +243,17 @@ def add_to_notion(info):
                 }]
             },
 
-            # "Email": {
-            #     "id": "n%3AN.",
-            #     "name": "Email",
-            #     "type": "email",
-            #     "email": {info.get('email', 'unknown@unknown.com')}
-            # },
+            "Email": {
+                # "id": "n%3AN.",
+                # "name": "Email",
+                # "type": "email",
+                #"email": {info.get('email', 'unknown@unknown.com')}
+                "email": [{ 
+                    "text": {  
+                        "content": f"{info.get('name', 'Unknown Name')}" 
+                    }
+                }]
+            },
 
             # "University": {
             #     "id": "%7Ccl%3D",
