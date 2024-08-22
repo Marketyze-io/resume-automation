@@ -251,14 +251,14 @@ def add_to_notion(info):
                 "email": f"{info.get('email', 'unknown@unknown.com')}"                 
             },
 
-            # "University": {
-            #     "id": "%7Ccl%3D",
-            #     "name": "University",
-            #     "type": "select",
-            #     "select": {
-            #         "name": university_name
-            #     }
-            # } if university_id else {},  # Only include this if the university matches
+            "University": {
+                # "id": "%7Ccl%3D",
+                # "name": "University",
+                # "type": "select",
+                "select": {
+                    "name": university_name if university_id else "Unknown University"
+                }
+            },
 
             "Major": {
                 # "id": "3.%3BY",
@@ -305,6 +305,7 @@ def process_drive_folder():
             info = extract_info_from_resume(file_path)
             logging.debug("INFO EXTRACTED FROM RESUME")
             response = add_to_notion(info)
+            logging.debug("ADDED TO NOTION")
             responses.append(response)
         except Exception as e:
             responses.append({"error": str(e)})
