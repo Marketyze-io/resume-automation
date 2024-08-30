@@ -113,7 +113,11 @@ def extract_info_from_resume(file_path):
     #     resume_content = resume_content.decode('utf-8')
 
     # Construct the prompt
-    prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
+    # prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
+
+    # Construct the prompt for input text
+    prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content[:2000]}"
+    # Truncate resume_content to a smaller length (e.g., 2000 characters) to stay within the token limit.
 
     logging.debug("Querying GPT now")
 
