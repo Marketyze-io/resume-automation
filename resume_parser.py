@@ -86,7 +86,8 @@ def detect_encoding(file_path):
 
 
 def print_tokens(text):
-    tokenizer = tiktoken.encoding_for_model("gpt-4")
+    tokenizer = tiktoken.get_encoding("cl100k_base")
+    # tokenizer = tiktoken.encoding_for_model("gpt-4")
     tokens = tokenizer.encode(text)
     
     print(f"Total tokens: {len(tokens)}")
