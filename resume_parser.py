@@ -163,7 +163,7 @@ def extract_info_from_resume(file_path):
             response = openai.chat.completions.create(
                 # model="gpt-3.5-turbo",
                 # model="gpt-3.5-turbo-instruct",
-                model="gpt-4",
+                model="gpt-4-turbo",
                 # model="text-davinci-003",
                 messages = [{"role": "system", "content": prompt}],
                 # prompt=prompt,
