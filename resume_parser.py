@@ -159,10 +159,11 @@ def extract_info_from_resume(file_path):
     for attempt in range(retries):
         try:
             # Make a call to the OpenAI API
-            response = openai.completions.create(
-                model="gpt-3.5-turbo",
+            # response = openai.completions.create(     This line is legacy, only works for gpt-3.5-turbo-instruct, babbage-002, davinci-002
+            response = openai.chat.create(
+                # model="gpt-3.5-turbo",
                 # model="gpt-3.5-turbo-instruct",
-                # model="gpt-4",
+                model="gpt-4",
                 # model="text-davinci-003",
                 prompt=prompt,
                 max_tokens=200,
