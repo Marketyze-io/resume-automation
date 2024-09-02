@@ -160,7 +160,7 @@ def extract_info_from_resume(file_path):
         try:
             # Make a call to the OpenAI API
             # response = openai.completions.create(     This line is legacy, only works for gpt-3.5-turbo-instruct, babbage-002, davinci-002
-            response = openai.chat.create(
+            response = openai.chat.completions.create(
                 # model="gpt-3.5-turbo",
                 # model="gpt-3.5-turbo-instruct",
                 model="gpt-4",
