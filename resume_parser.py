@@ -160,7 +160,7 @@ def extract_info_from_resume(file_path):
             # Make a call to the OpenAI API
             response = openai.completions.create(
                 # model="gpt-3.5-turbo-instruct",
-                model="gpt-4-turbo-instruct",
+                model="gpt-4-turbo",
                 # model="text-davinci-003",
                 prompt=prompt,
                 max_tokens=200,
