@@ -11,6 +11,7 @@ from google.oauth2.service_account import Credentials
 import time
 import openai
 import httpx
+import tiktoken
 
 
 # Ensure you have your OpenAI API key
@@ -83,6 +84,16 @@ def detect_encoding(file_path):
     return result['encoding']
 
 
+def print_tokens(text):
+    # Load the tokenizer for the GPT-3.5 model
+    tokenizer = tiktoken.get_encoding("gpt-3.5-turbo")
+    tokens = tokenizer.encode(text)
+    
+    print(f"Total tokens: {len(tokens)}")
+    print("Tokens:")
+    for token in tokens:
+        print(f"{token}: {tokenizer.decode([token])}")
+
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
 
@@ -114,6 +125,9 @@ def extract_info_from_resume(file_path):
 
     # Construct the prompt
     # prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content}"
+
+    # Print the tokens to debug the tokenization process
+    print_tokens(resume_content)
 
     # Construct the prompt for input text
     prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content[:2000]}"
