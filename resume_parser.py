@@ -86,7 +86,7 @@ def detect_encoding(file_path):
 
 
 def print_tokens(text):
-    tokenizer = tiktoken.encoding_for_model("gpt-4-turbo")
+    tokenizer = tiktoken.encoding_for_model("gpt-4")
     tokens = tokenizer.encode(text)
     
     print(f"Total tokens: {len(tokens)}")
@@ -160,7 +160,7 @@ def extract_info_from_resume(file_path):
             # Make a call to the OpenAI API
             response = openai.completions.create(
                 # model="gpt-3.5-turbo-instruct",
-                model="gpt-4-turbo",
+                model="gpt-4",
                 # model="text-davinci-003",
                 prompt=prompt,
                 max_tokens=200,
