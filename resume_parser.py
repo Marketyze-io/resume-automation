@@ -165,7 +165,7 @@ def extract_info_from_resume(file_path):
                 # model="gpt-3.5-turbo-instruct",
                 model="gpt-4",
                 # model="text-davinci-003",
-                messages = {"role": "system", "content": prompt},
+                messages = [{"role": "system", "content": prompt}],
                 # prompt=prompt,
                 max_tokens=200,
                 temperature=0.5
