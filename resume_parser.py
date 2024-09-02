@@ -169,6 +169,9 @@ def extract_info_from_resume(file_path):
                 temperature=0.5
             )
 
+            # Log the entire response for debugging
+            logging.debug(f"Full GPT Response: {response}")
+
             # Extract the relevant information from the response
             gpt_output = response.choices[0].text.strip()
 
