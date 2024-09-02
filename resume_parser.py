@@ -165,7 +165,8 @@ def extract_info_from_resume(file_path):
                 # model="gpt-3.5-turbo-instruct",
                 model="gpt-4",
                 # model="text-davinci-003",
-                prompt=prompt,
+                messages = {"role": "system", "content": prompt},
+                # prompt=prompt,
                 max_tokens=200,
                 temperature=0.5
             )
@@ -174,7 +175,8 @@ def extract_info_from_resume(file_path):
             logging.debug(f"Full GPT Response: {response}")
 
             # Extract the relevant information from the response
-            gpt_output = response.choices[0].text.strip()
+            #gpt_output = response.choices[0].text.strip()
+            gpt_output = response.choices[0].message.content.strip()
 
             # Parse the GPT output
             info = {}
