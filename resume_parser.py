@@ -12,6 +12,7 @@ import time
 import openai
 import httpx
 import tiktoken
+import PyPDF2
 
 
 # Ensure you have your OpenAI API key
@@ -85,8 +86,7 @@ def detect_encoding(file_path):
 
 
 def print_tokens(text):
-    # Load the tokenizer for the GPT-3.5 model
-    tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    tokenizer = tiktoken.get_encoding("gpt-3.5-turbo")
     tokens = tokenizer.encode(text)
     
     print(f"Total tokens: {len(tokens)}")
@@ -94,26 +94,43 @@ def print_tokens(text):
     for token in tokens:
         print(f"{token}: {tokenizer.decode([token])}")
 
+def extract_text_from_pdf(file_path):
+    with open(file_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
+        text = ''
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
 def extract_info_from_resume(file_path):
     logging.debug("Loading resume...")
 
-    # Detect file encoding
-    encoding = detect_encoding(file_path)
-    logging.debug(f"Detected encoding: {encoding}")
+    # Detect file encoding -- ONLY FOR TEXT FILES
+    # encoding = detect_encoding(file_path)
+    # logging.debug(f"Detected encoding: {encoding}")
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            resume_content = f.read()
-            print("UTF-8 Encoding used!")
-    except UnicodeDecodeError:
-        # If UTF-8 fails, try a different encoding
-        try:
-            with open(file_path, 'r', encoding='ISO-8859-1') as f:
-                resume_content = f.read()
-                logging.debug("ISO-8859-1 Encoding used!")
-        except UnicodeDecodeError as e:
-            logging.error(f"Error reading {file_path}: {e}")
-            return {}
+        # Extract text from PDF
+        resume_content = extract_text_from_pdf(file_path)
+        logging.debug("Text extracted from PDF.")
+    except Exception as e:
+        logging.error(f"Error extracting text from PDF: {e}")
+        return {}
+
+# The following code block only works for text files instead of PDF
+    # try:
+    #     with open(file_path, 'r', encoding='utf-8') as f:
+    #         resume_content = f.read()
+    #         print("UTF-8 Encoding used!")
+    # except UnicodeDecodeError:
+    #     # If UTF-8 fails, try a different encoding
+    #     try:
+    #         with open(file_path, 'r', encoding='ISO-8859-1') as f:
+    #             resume_content = f.read()
+    #             logging.debug("ISO-8859-1 Encoding used!")
+    #     except UnicodeDecodeError as e:
+    #         logging.error(f"Error reading {file_path}: {e}")
+    #         return {}
     
     # with open(file_path, 'rb') as f:
     #     resume_content = f.read()
