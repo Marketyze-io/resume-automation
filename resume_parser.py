@@ -54,6 +54,9 @@ notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwx
 database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
 google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3")
 
+# Initialize an empty list to store file names in the order they are added
+file_order_list = []
+
 def list_files_in_folder(folder_id):
     query = f"'{folder_id}' in parents"
     results = drive_service.files().list(q=query).execute()
