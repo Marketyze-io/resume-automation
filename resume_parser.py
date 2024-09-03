@@ -86,6 +86,17 @@ def list_files_in_folder(folder_id):
     logging.debug(file_order_list)
     return files
 
+def get_latest_file():
+    global file_order_list
+    
+    if file_order_list:
+        latest_file_name = file_order_list[-1]
+        logging.info(f"Latest file to process: {latest_file_name}")
+        return latest_file_name
+    else:
+        logging.info("No files to process.")
+        return None
+
 def download_file(file_id, file_name):
     request = drive_service.files().get_media(fileId=file_id)
     with open(file_name, 'wb') as fh:
