@@ -108,6 +108,18 @@ def download_file(file_id, file_name):
     logging.debug("File is downloaded!")
     return file_name
 
+def download_file_by_name(file_name):
+    query = f"name = '{file_name}' and '{google_drive_folder_id}' in parents"
+    results = drive_service.files().list(q=query).execute()
+    files = results.get('files', [])
+
+    if files:
+        file_id = files[0]['id']
+        return download_file(file_id, file_name)
+    else:
+        logging.error(f"File {file_name} not found in Google Drive folder.")
+        return None
+
 import chardet
 def detect_encoding(file_path):
     with open(file_path, 'rb') as f:
@@ -370,20 +382,31 @@ def add_to_notion(info):
 
 @app.route('/process_drive_folder', methods=['POST'])
 def process_drive_folder():
-    files = list_files_in_folder(google_drive_folder_id)
-    responses = []
-    for file in files:
-        try:
-            file_path = download_file(file['id'], file['name'])
-            logging.debug("FILE DOWNLOADED")
-            info = extract_info_from_resume(file_path)
-            logging.debug("INFO EXTRACTED FROM RESUME")
-            response = add_to_notion(info)
-            logging.debug("ADDED TO NOTION")
-            responses.append(response)
-        except Exception as e:
-            responses.append({"error": str(e)})
-    return jsonify(responses)
+    # files = list_files_in_folder(google_drive_folder_id)
+    # responses = []
+    # for file in files:
+    #     try:
+    #         file_path = download_file(file['id'], file['name'])
+    #         logging.debug("FILE DOWNLOADED")
+    #         info = extract_info_from_resume(file_path)
+    #         logging.debug("INFO EXTRACTED FROM RESUME")
+    #         response = add_to_notion(info)
+    #         logging.debug("ADDED TO NOTION")
+    #         responses.append(response)
+    #     except Exception as e:
+    #         responses.append({"error": str(e)})
+    # return jsonify(responses)
+
+    list_files_in_folder(google_drive_folder_id)
+    latest_file_name = get_latest_file()
+
+    if latest_file_name:
+        file_path = download_file_by_name(latest_file_name)
+        info = extract_info_from_resume(file_path)
+        response = add_to_notion(info)
+        return jsonify(response)
+    else:
+        return jsonify({"error": "No new files to process"})
 
 
 if __name__ == "__main__":
