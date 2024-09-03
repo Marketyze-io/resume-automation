@@ -58,16 +58,32 @@ google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8Wc
 file_order_list = []
 
 def list_files_in_folder(folder_id):
+    global file_order_list
+
     query = f"'{folder_id}' in parents"
-    results = drive_service.files().list(q=query).execute()
+    # results = drive_service.files().list(q=query).execute()
+    results = drive_service.files().list(q=query, orderBy="modifiedTime").execute()
     files = results.get('files', [])
+
+    if not files:
+        logging.info(f"No files found in Google Drive folder {folder_id}.")
+        return None
 
     # Print the retrieved files to the logs
     logging.info(f"Files retrieved from Google Drive folder {folder_id}:")
+
+    # Identify new files and update the list
     for file in files:
+        # Display file name
         logging.info(f"File ID: {file['id']}, Name: {file['name']}")
+        # Add file to file order list if not done so
+        if file['name'] not in file_order_list:
+            file_order_list.append(file['name'])
+            logging.info(f"New file added to file order list: {file['name']}")
 
     logging.debug("Listed files in folder!")
+    logging.debug("Updated file order list:")
+    logging.debug(file_order_list)
     return files
 
 def download_file(file_id, file_name):
