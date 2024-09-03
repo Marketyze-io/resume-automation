@@ -18,7 +18,6 @@ import PyPDF2
 # Ensure you have your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
 # Load Google credentials from environment variable
 # google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
 
@@ -56,9 +55,12 @@ google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8Wc
 
 # Initialize an empty list to store file names in the order they are added
 file_order_list = []
+new_file_added = 0
 
 def list_files_in_folder(folder_id):
     global file_order_list
+    global new_file_added
+    new_file_added = 0  # Reset the counter each time the function is called
 
     query = f"'{folder_id}' in parents"
     # results = drive_service.files().list(q=query).execute()
@@ -80,6 +82,9 @@ def list_files_in_folder(folder_id):
         if file['name'] not in file_order_list:
             file_order_list.append(file['name'])
             logging.info(f"New file added to file order list: {file['name']}")
+            new_file_added += 1
+        else:
+            logging.info(f"No new file added to file order list")
 
     logging.debug("Listed files in folder!")
     logging.debug("Updated file order list:")
@@ -88,9 +93,10 @@ def list_files_in_folder(folder_id):
 
 def get_latest_file():
     global file_order_list
+    global new_file_added
     
-    if file_order_list:
-        latest_file_name = file_order_list[-1]
+    if file_order_list and (new_file_added > 0):
+        latest_file_name = file_order_list[-1] #Get the last file in the list
         logging.info(f"Latest file to process: {latest_file_name}")
         return latest_file_name
     else:
@@ -125,7 +131,6 @@ def detect_encoding(file_path):
     with open(file_path, 'rb') as f:
         result = chardet.detect(f.read())
     return result['encoding']
-
 
 def print_tokens(text):
     tokenizer = tiktoken.get_encoding("cl100k_base")
