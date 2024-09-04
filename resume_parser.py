@@ -1,18 +1,17 @@
-import logging
-logging.basicConfig(level=logging.DEBUG)
-#from pyresparser import ResumeParser
-import requests
 from flask import Flask, request, jsonify
-import os
-import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
+#from pyresparser import ResumeParser
+import httpx
+import logging
+logging.basicConfig(level=logging.DEBUG)
+import os
+import PyPDF2
+import requests
+import tiktoken
 import time
 import openai
-import httpx
-import tiktoken
-import PyPDF2
 
 
 # Ensure you have your OpenAI API key
