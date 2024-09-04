@@ -5,8 +5,8 @@ import os
 
 app = Flask(__name__)
 
-notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
-database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
+notion_api_key = os.getenv("NOTION_API_KEY")
+database_id = os.getenv("NOTION_DATABASE_ID")
 
 def extract_info_from_resume(file_path):
     data = ResumeParser(file_path).get_extracted_data()

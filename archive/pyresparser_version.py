@@ -14,20 +14,6 @@ from google.oauth2.service_account import Credentials
 # Load Google credentials from environment variable
 # google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
 
-google_creds_json = {
-  "type": "service_account",
-  "project_id": "automations-415608",
-  "private_key_id": "3874762116474ab5c6929a410191911fcc6426cb",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxvjfWhgwJJuPl\nvq8+W303YPz4VEglvdlhUmRiyOurUT28TG7BLqj0PiHWoFNVKUWNug7cArA2DhDD\nVeVq1NdM+SaT6PblqR064pagnuPh+ZrriRnrq9SR1v9TzdtLvFjhep77BkdyVfPQ\n07e8gyAwqCmreDBBIuVzbXiNolchKnTQpmHc2SeIbXKw2aqW+fdDrW4sFKxffQnf\nC0CwN97xPgj8yT5uUID7kKlfPKA+sGcvKeVHeSnkfDzjWszIG5O83xUZXihOHen+\nJdxSIun/klo4UeiaAu9b81Iajo/8IUpWEDsDlT34ChKf2h2VPXeOZb0MgW6tZYCw\nIV6kHh7hAgMBAAECggEABaQNqdpcdqxkKmoGLf6Rj2C9uoRTO1ZmeBUZMDzj5M6Z\n3NhYofsg+8pegM0bA+6AwXYUi2Uu8jI5VDetRZoOYKgeEi7gKgr3TWN8SAnu3cCy\nCtRRrSXpg7zc4swbT/Cg6fv+IGWTPiTN7XRQphQLwRuPIfzZHDIXMdX5L9aFeR0O\nBbY+Xx/9wxj5RLStPIq635ez6qMMv8Swdrb4x2jdto3bLDBxSymUpYqK47VhT3Yd\nORn8M2dfXGaKssAXe9C8mCHlrN7fLYp/Yl0K5rDD9gHIW4HBG9uAFxDC8EcUYpHm\nIafdSoEisxPo+QeJQSE0fGSPEZCCB1xPISVZbIh94QKBgQD10kwkK5TUmPhkBsiU\nJHrQ1fCfjKzkVypmOsHm9ry2U3wb5Zc4rVp1WPapNhMaDwwL2k3zU/qAl1zan64g\nCQffmp3BJj6SCIFOQdqpVn19VTHC7eSEUorfhel9kzOvsQ1+A9Wcgka8zNwkDjQg\nhraZ6C9xs8UrYGAYYDH8h181MQKBgQC5GkpqFJzhs8dLSsKVFuki2axQDNjNXOea\nrwyIP+bvRM4hNhNMtt5IbH+D6DO48naIA+vFOUJZI8c6WVz6yxTSkS+csLqfAZn4\nopfwwBVpnc7gNpzD0zPRbJqrTlls3jCPR7C9kbtoub5lWk41t3cM9pC0WmcrXJx6\ntBj6JrnYsQKBgFWK5wA3QkVxLg7w5V/YCf0eVevPsmKLiq+khtFuz2DLUIcMsEEC\n4lWvrbZYoPESh2iggTvJ34RcJ+3UX226dsjzLy6FtoRu/UBUXllLRcQVn4lr63e4\nmacLHKOcVAIxpLZTc0RReXg9+eV6I92lw2lviQMSQezETuxsnTh5i0IhAoGAQhUd\nvfNv8rABFWMyRpGwV63Ic6eyetaRJMsbuUS/CGrTAE5S449hmg+KEqiCVqPRJ0vn\nDzka88HvLWib5jk8TNRiYBlD9uJWesppXhzlSBh7s9Yrb0nmdPzF1ySYjmJgibZ5\nZaQyePfe/kYYJ9tA2FLqZEjmDjf48WF8jUnoDXECgYEA2kJDpgEP/Ae75oYwzYW0\n8pI81XviPfXGcRdgFYXh3NQibHAuuARi0LQZENqZ44AY3yuRDBrcIu/ou8U0jpUm\nR8WZI1ykMJlRr33G2BIp1Vi6HigTbDdifU+uE+YMpEvx6MJOFLjttPAEDjegD7km\nEAJEcgO7nnkhdeevPpaEY1A=\n-----END PRIVATE KEY-----\n",
-  "client_email": "resume-automation@automations-415608.iam.gserviceaccount.com",
-  "client_id": "101858961367440296504",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/resume-automation%40automations-415608.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
-
 # The error you're encountering is because you're trying to load a dictionary (google_creds_json) 
 # using json.loads(), which expects a JSON string, not a dictionary. 
 # Since you already have the JSON content as a dictionary, # you don't need to use json.loads(). 
@@ -42,9 +28,9 @@ else:
 
 drive_service = build('drive', 'v3', credentials=creds)
 
-notion_api_key = os.getenv("NOTION_API_KEY", "secret_5gwBVqjZDAC99Okj3HbrwIbSKwxOJYkpl1QE40mQDXW")
-database_id = os.getenv("NOTION_DATABASE_ID", "a4ab10ca7b27411ebcb3664b04c1d399")
-google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3")
+notion_api_key = os.getenv("NOTION_API_KEY")
+database_id = os.getenv("NOTION_DATABASE_ID")
+google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
 def list_files_in_folder(folder_id):
     query = f"'{folder_id}' in parents"
