@@ -232,8 +232,6 @@ def extract_info_from_resume(file_path):
             logging.debug("Resume loaded.")
             return info
 
-        
-
         except httpx.HTTPStatusError as e:
             logging.error(f"HTTP error occurred: {e} - Status Code: {e.response.status_code}")
             if e.response.status_code == 429:  # Too Many Requests
@@ -293,25 +291,6 @@ def add_to_notion(info):
         "parent": { "database_id": database_id },
         "properties": {
 
-            # "Name": {
-            #     "id": "title",
-            #     #"name": "Name",
-            #     # "type": "title",
-            #     # "title": {info.get('name', 'Unknown Name') }
-            #     # "title": [{
-            #     #     "text": { 
-            #     #         # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
-            #     #         "content": f"{info.get('name', 'Unknown Name')}" 
-            #     #     }
-            #     # }]
-            #     "title": [{ 
-            #         "text": { 
-            #             # "content": f"{info.get('first_name', 'Unknown First Name')} {info.get('last_name', 'Unknown Last Name')}" 
-            #             "content": f"{info.get('name', 'Unknown Name')}" 
-            #         }
-            #     }]
-            # },
-
             "Name": { 
                 "title": [{ 
                     "text": {  
@@ -321,26 +300,16 @@ def add_to_notion(info):
             },
 
             "Email": {
-                # "id": "n%3AN.",
-                # "name": "Email",
-                # "type": "email",
-                #"email": {info.get('email', 'unknown@unknown.com')}
                 "email": f"{info.get('email', 'unknown@unknown.com')}"                 
             },
 
             "University": {
-                # "id": "%7Ccl%3D",
-                # "name": "University",
-                # "type": "select",
                 "select": {
                     "name": university_name if university_id else "Unknown University"
                 }
             },
 
             "Major": {
-                # "id": "3.%3BY",
-                # "name": "Major",
-                # "type": "rich_text",
                 "rich_text": [{
                     "text": {
                         "content": f"{info.get('major', 'Unknown Major')}"
@@ -393,8 +362,11 @@ def process_drive_folder():
 
     if latest_file_name:
         file_path = download_file_by_name(latest_file_name)
+        logging.debug("FILE DOWNLOADED")
         info = extract_info_from_resume(file_path)
+        logging.debug("INFO EXTRACTED FROM RESUME")
         response = add_to_notion(info)
+        logging.debug("ADDED TO NOTION")
         return jsonify(response)
     else:
         return jsonify({"error": "No new files to process"})
