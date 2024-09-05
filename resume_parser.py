@@ -315,6 +315,10 @@ def add_to_notion(info):
                 "email": f"{info.get('email', 'unknown@unknown.com')}"                 
             },
 
+            "Link to CV": {
+                "url": f"https://drive.google.com/drive/u/1/folders/{google_drive_folder_id}"                 
+            },
+
             "University": {
                 "select": {
                     "name": university_name if university_id else "Unknown University"
