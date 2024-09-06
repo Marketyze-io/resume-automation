@@ -4,6 +4,7 @@ from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
 #from pyresparser import ResumeParser
 import httpx
+import json
 import logging
 logging.basicConfig(level=logging.DEBUG)
 import os
@@ -18,20 +19,13 @@ import openai
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Load Google credentials from environment variable
-google_creds_json = os.getenv('GOOGLE_CREDS_JSON')
-# google_creds_json = {
-#   "type": "service_account",
-#   "project_id": "automations-415608",
-#   "private_key_id": "f00ce2f24b63dd6078bcad1eff28122d636abf24",
-#   "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDARH/lo5E0NOIT\nyC1IoIM2t+jJ+nITvvRESWkf5OK4m6cXGVjlhvb2S3LNWi+OjnmZLadwMo4wDoGM\n1G0vcPHXxl6w2l1kab6R+7ghEH5suy2v9AiZ26c7OaSGsR/N/lPWs+kUx6AFJWhl\nM9jiZlnAM1euYHWCqAojqiIOSgI226Hvxs12+wjAPLph9psouV2COy6h0084cljK\n4YRGd4A9RHBsrKpgRAN2MFc4dZ2R1+wEaHkqBC8PhzaN7af76hYwzHTbG/sP6GJk\nv17Eul5Vgjt3HKFLwwJBp27DLSqTPCTae0JTf3YFSJcj0+wo5085Sz1/As2tku9b\nfJ25el1tAgMBAAECggEANg9Mksnx2ub/piZDrUcMfccqGhhkGO85CTZG66PUp6mE\nSrdiym6vY8MFDX5NHt0qjYpLqP1eA18gx/M2m/860LvDBiDv33roDW3kcM+NbI8Y\non+QJ4qeM8XaX9DPq4DWG+lMIP6cHLZO6x2v3sB+fc8x2SLgB5Ot/icpGjFu+/M5\nlFKkXU1yIetplYzX/pZIKjDwq1lgNVxwoB8CQHZsGdBfqQW+N7pRWptE32KnCVyz\nhao0C2fkEckKf2My/Mb5kiLLzg+P8+8FHeN4WrTZVyJDxWmmjGnNGnc3NICyC8Rw\ndpJaJ6xClQsg2dqTEoB+LQ5ogOYgOmoiz0T6HIIOlQKBgQD7N54rC8H5t+Sesbq6\n3mgpXB11DqWXKNrWet9vq3X163b3IViofKPcY06ZPcro54CsXYhOAREJixHoUsgo\n+MG3oI0ZFzpUwenX4FdgKZUr+h/UM1+0uBmtnnPb3cre8S/61WFvL+0BaEGTTuZK\nSCq1xVeZf9WxzBfPXMnoX6aaBwKBgQDD7ZKq5OW9CHYtw2ZaMUBCE5+fiTsXAcmU\nDz7iKykngv1st0S8a1lzprDnGzI1dsnvI4nNTn0YEuXqYOkyYXm4TvmFWQ5CPivC\nz8B5OF2dODMkUgOG83z21KCJ2xdEeMshIOOFrFNdjB/CXqsEoDYb7NZnFkx6DTXB\nfc4SV3L/6wKBgEeM/cWw4ZyoXbs9T7vtoKk3DUTL2SoGft3bvUvm///9ArM8ki3a\n4ijhN/+5c9OGLEXrlejxsNKRA5ayDURuJW6Rkd51mS2O1XWg9gHzlgMiiHI996JX\nVSj4GnOi5ic9drbwk4HBmrVt5k94h2rcxx1iiaK0oD61rIppGTDQHXl9AoGBAIeE\ngZf2rvkrKyLILrlfq4SIsjXU46wsLlNcoDArjlGoBsX1lXOGBN87gsy3QOk9+rqP\nqDb7fQbzu1d8JJAWX+ydo3UafgRPoFElBYpS9F1Ui/spRwtGyz6nH0t64QMZUdbe\nOsEwypC/5Q+6Dywp7IMwM7Ql9kvNa0skSy7gkch1AoGBAJw0KGM+j+0W6TbcqkRB\n5Mig0Vzb2E4Ez6HJCFVojmwPoy7VgZGYZVj7efTeiw8EnMZGqZHXCGwaskeTafvn\n/sw+eiQKaUusBkG1RtmpDM8GJ/vZ8r4vsErm8NBrcqJWu8HgSfMZK+I5TLWNeEiQ\nqUgVXZMqPdJ2pEmP9E1Qlte0\n-----END PRIVATE KEY-----\n",
-#   "client_email": "resume-automation@automations-415608.iam.gserviceaccount.com",
-#   "client_id": "101858961367440296504",
-#   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#   "token_uri": "https://oauth2.googleapis.com/token",
-#   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-#   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/resume-automation%40automations-415608.iam.gserviceaccount.com",
-#   "universe_domain": "googleapis.com"
-# }
+google_creds_json_str = os.getenv("GOOGLE_CREDS_JSON")
+
+# Convert the string back to a dictionary
+if google_creds_json_str:
+    google_creds_json = json.loads(google_creds_json_str)
+else:
+    raise ValueError("Google credentials not found in environment variables")
 
 # The error you're encountering is because you're trying to load a dictionary (google_creds_json) 
 # using json.loads(), which expects a JSON string, not a dictionary. 
