@@ -65,10 +65,13 @@ def get_folder_id_file_name():
 
     # Assuming Zapier passes the folder ID in the payload
     folder_id = request.json.get('folder_id')
-    latest_file_name = request.json.get('file_id')
+    file_name = request.json.get('file_id')
     
     if not folder_id:
         return jsonify({"error": "Folder ID not provided"}), 400
+    
+    if not file_name:
+        return jsonify({"error": "File Name not provided"}), 400
     
     # Check if the folder ID is in the mapping
     if folder_id not in folder_mapping.values():
