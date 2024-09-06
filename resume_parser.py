@@ -43,7 +43,7 @@ drive_service = build('drive', 'v3', credentials=creds)
 
 notion_api_key = os.getenv("NOTION_API_KEY")
 database_id = os.getenv("NOTION_DATABASE_ID")
-google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
+# google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
 # Initialize an empty list to store file names in the order they are added
 file_order_list = []
@@ -55,6 +55,24 @@ folder_mapping = {
     "category_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
     "category_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
 }
+
+folder_id = ""
+file_name = ""
+
+def get_folder_id_file_name():
+    global folder_id
+    global file_name
+
+    # Assuming Zapier passes the folder ID in the payload
+    folder_id = request.json.get('folder_id')
+    latest_file_name = request.json.get('file_id')
+    
+    if not folder_id:
+        return jsonify({"error": "Folder ID not provided"}), 400
+    
+    # Check if the folder ID is in the mapping
+    if folder_id not in folder_mapping.values():
+        return jsonify({"error": "Invalid folder ID"}), 400
 
 def list_files_in_folder(folder_id):
     global file_order_list
@@ -114,7 +132,7 @@ def download_file(file_id, file_name):
     return file_name
 
 def download_file_by_name(file_name):
-    query = f"name = '{file_name}' and '{google_drive_folder_id}' in parents"
+    query = f"name = '{file_name}' and '{folder_id}' in parents"
     results = drive_service.files().list(q=query).execute()
     files = results.get('files', [])
 
@@ -317,7 +335,7 @@ def add_to_notion(info):
             },
 
             "Link to CV": {
-                "url": f"https://drive.google.com/drive/u/1/folders/{google_drive_folder_id}"                 
+                "url": f"https://drive.google.com/drive/u/1/folders/{folder_id}"                 
             },
 
             "University": {
@@ -359,6 +377,11 @@ def add_to_notion(info):
 
 @app.route('/process_drive_folder', methods=['POST'])
 def process_drive_folder():
+
+    global file_name
+    global folder_id
+
+    get_folder_id_file_name()
     # files = list_files_in_folder(google_drive_folder_id)
     # responses = []
     # for file in files:
@@ -374,11 +397,11 @@ def process_drive_folder():
     #         responses.append({"error": str(e)})
     # return jsonify(responses)
 
-    list_files_in_folder(google_drive_folder_id)
-    latest_file_name = get_latest_file()
+    # list_files_in_folder(google_drive_folder_id)
+    # latest_file_name = get_latest_file()
 
-    if latest_file_name:
-        file_path = download_file_by_name(latest_file_name)
+    if file_name:
+        file_path = download_file_by_name(file_name)
         logging.debug("FILE DOWNLOADED")
         info = extract_info_from_resume(file_path)
         logging.debug("INFO EXTRACTED FROM RESUME")
