@@ -128,10 +128,9 @@ def download_file(file_id, file_name):
     with open(file_name, 'wb') as fh:
         downloader = MediaIoBaseDownload(fh, request)
         done = False
-        while done is False:
+        while not done:
             status, done = downloader.next_chunk()
-    
-    logging.debug("File is downloaded!")
+    logging.debug(f"File {file_name} downloaded!")
     return file_name
 
 def download_file_by_name(file_name):
