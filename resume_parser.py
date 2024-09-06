@@ -46,8 +46,8 @@ database_id = os.getenv("NOTION_DATABASE_ID")
 # google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
 # Initialize an empty list to store file names in the order they are added
-file_order_list = []
-new_file_added = 0
+# file_order_list = []
+# new_file_added = 0
 
 folder_mapping = {
     "category_1": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
@@ -77,51 +77,51 @@ def get_folder_id_file_name():
     if folder_id not in folder_mapping.values():
         return jsonify({"error": "Invalid folder ID"}), 400
 
-def list_files_in_folder(folder_id):
-    global file_order_list
-    global new_file_added
-    new_file_added = 0  # Reset the counter each time the function is called
+# def list_files_in_folder(folder_id):
+#     global file_order_list
+#     global new_file_added
+#     new_file_added = 0  # Reset the counter each time the function is called
 
-    query = f"'{folder_id}' in parents"
-    # results = drive_service.files().list(q=query).execute()
-    results = drive_service.files().list(q=query, orderBy="modifiedTime").execute()
-    files = results.get('files', [])
+#     query = f"'{folder_id}' in parents"
+#     # results = drive_service.files().list(q=query).execute()
+#     results = drive_service.files().list(q=query, orderBy="modifiedTime").execute()
+#     files = results.get('files', [])
 
-    if not files:
-        logging.info(f"No files found in Google Drive folder {folder_id}.")
-        return None
+#     if not files:
+#         logging.info(f"No files found in Google Drive folder {folder_id}.")
+#         return None
 
-    # Print the retrieved files to the logs
-    logging.info(f"Files retrieved from Google Drive folder {folder_id}:")
+#     # Print the retrieved files to the logs
+#     logging.info(f"Files retrieved from Google Drive folder {folder_id}:")
 
-    # Identify new files and update the list
-    for file in files:
-        # Display file name
-        logging.info(f"File ID: {file['id']}, Name: {file['name']}")
-        # Add file to file order list if not done so
-        if file['name'] not in file_order_list:
-            file_order_list.append(file['name'])
-            logging.info(f"New file added to file order list: {file['name']}")
-            new_file_added += 1
-        else:
-            logging.info(f"No new file added to file order list")
+#     # Identify new files and update the list
+#     for file in files:
+#         # Display file name
+#         logging.info(f"File ID: {file['id']}, Name: {file['name']}")
+#         # Add file to file order list if not done so
+#         if file['name'] not in file_order_list:
+#             file_order_list.append(file['name'])
+#             logging.info(f"New file added to file order list: {file['name']}")
+#             new_file_added += 1
+#         else:
+#             logging.info(f"No new file added to file order list")
 
-    logging.debug("Listed files in folder!")
-    logging.debug("Updated file order list:")
-    logging.debug(file_order_list)
-    return files
+#     logging.debug("Listed files in folder!")
+#     logging.debug("Updated file order list:")
+#     logging.debug(file_order_list)
+#     return files
 
-def get_latest_file():
-    global file_order_list
-    global new_file_added
+# def get_latest_file():
+#     global file_order_list
+#     global new_file_added
     
-    if file_order_list and (new_file_added > 0):
-        latest_file_name = file_order_list[-1] #Get the last file in the list
-        logging.info(f"Latest file to process: {latest_file_name}")
-        return latest_file_name
-    else:
-        logging.info("No files to process.")
-        return None
+#     if file_order_list and (new_file_added > 0):
+#         latest_file_name = file_order_list[-1] #Get the last file in the list
+#         logging.info(f"Latest file to process: {latest_file_name}")
+#         return latest_file_name
+#     else:
+#         logging.info("No files to process.")
+#         return None
 
 def download_file(file_id, file_name):
     request = drive_service.files().get_media(fileId=file_id)
@@ -133,17 +133,17 @@ def download_file(file_id, file_name):
     logging.debug(f"File {file_name} downloaded!")
     return file_name
 
-def download_file_by_name(file_name):
-    query = f"name = '{file_name}' and '{folder_id}' in parents"
-    results = drive_service.files().list(q=query).execute()
-    files = results.get('files', [])
+# def download_file_by_name(file_name):
+#     query = f"name = '{file_name}' and '{folder_id}' in parents"
+#     results = drive_service.files().list(q=query).execute()
+#     files = results.get('files', [])
 
-    if files:
-        file_id = files[0]['id']
-        return download_file(file_id, file_name)
-    else:
-        logging.error(f"File {file_name} not found in Google Drive folder.")
-        return None
+#     if files:
+#         file_id = files[0]['id']
+#         return download_file(file_id, file_name)
+#     else:
+#         logging.error(f"File {file_name} not found in Google Drive folder.")
+#         return None
 
 import chardet
 def detect_encoding(file_path):
