@@ -130,6 +130,17 @@ def get_folder_id_file_name_file_id():
 #         return None
 
 def download_file(folder_id, file_name, file_id):
+    """
+    Downloads the file from Google Drive using the given file ID.
+    The folder ID is not directly used here, as the file ID is globally unique.
+
+    part of the code where you specify the folder is handled indirectly by the file_id. 
+    Once you have the file_id, the Google Drive API knows which folder the file is in.
+    
+    Parameters:
+        file_id (str): The ID of the file to be downloaded.
+        file_name (str): The name to save the file as.
+    """
     request = drive_service.files().get_media(fileId=file_id)
     with open(file_name, 'wb') as fh:
         downloader = MediaIoBaseDownload(fh, request)
