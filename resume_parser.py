@@ -402,6 +402,11 @@ def process_drive_folder():
     global file_id
 
     get_folder_id_file_name_file_id()
+    logging.debug("Folder ID, File Name and File ID received from Zapier Payload!")
+    logging.debug(f"Folder ID: {folder_id}")
+    logging.debug(f"File Name: {file_name}")
+    logging.debug(f"File ID: {file_id}")
+
     # files = list_files_in_folder(google_drive_folder_id)
     # responses = []
     # for file in files:
