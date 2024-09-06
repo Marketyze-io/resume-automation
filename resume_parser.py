@@ -402,17 +402,21 @@ def process_drive_folder():
 
     # list_files_in_folder(google_drive_folder_id)
     # latest_file_name = get_latest_file()
-
-    if file_name:
-        file_path = download_file_by_name(file_name)
+    
+    try:
+        # Download the file using the provided file ID and name
+        file_path = download_file(file_id, file_name)
         logging.debug("FILE DOWNLOADED")
+        # Parse the resume information from the file
         info = extract_info_from_resume(file_path)
         logging.debug("INFO EXTRACTED FROM RESUME")
         response = add_to_notion(info)
         logging.debug("ADDED TO NOTION")
-        return jsonify(response)
-    else:
-        return jsonify({"error": "No new files to process"})
+        return jsonify({"status": "success", "parsed_info": info, "response": response}), 200
+
+    except Exception as e:
+        logging.error(f"Error processing file {file_name}: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
