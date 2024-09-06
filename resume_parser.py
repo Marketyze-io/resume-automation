@@ -49,6 +49,13 @@ google_drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 file_order_list = []
 new_file_added = 0
 
+folder_mapping = {
+    "category_1": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
+    "category_2": "1B_-156jzb_V_aNa6rLMdjRUt3CV2SFNc",
+    "category_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
+    "category_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
+}
+
 def list_files_in_folder(folder_id):
     global file_order_list
     global new_file_added
