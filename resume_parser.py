@@ -50,28 +50,34 @@ database_id = os.getenv("NOTION_DATABASE_ID")
 # new_file_added = 0
 
 folder_mapping = {
-    "category_1": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
-    "category_2": "1B_-156jzb_V_aNa6rLMdjRUt3CV2SFNc",
-    "category_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
-    "category_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
+    "folder_1": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
+    "folder_2": "1B_-156jzb_V_aNa6rLMdjRUt3CV2SFNc",
+    "folder_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
+    "folder_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
 }
 
 folder_id = ""
 file_name = ""
+file_id = ""
 
-def get_folder_id_file_name():
+def get_folder_id_file_name_file_id():
     global folder_id
     global file_name
+    global file_id
 
     # Assuming Zapier passes the folder ID in the payload
     folder_id = request.json.get('folder_id')
-    file_name = request.json.get('file_id')
+    file_name = request.json.get('file_name')
+    file_id = request.json.get('file_id')
     
     if not folder_id:
         return jsonify({"error": "Folder ID not provided"}), 400
     
     if not file_name:
         return jsonify({"error": "File Name not provided"}), 400
+    
+    if not file_id:
+        return jsonify({"error": "File ID not provided"}), 400
     
     # Check if the folder ID is in the mapping
     if folder_id not in folder_mapping.values():
@@ -123,7 +129,7 @@ def get_folder_id_file_name():
 #         logging.info("No files to process.")
 #         return None
 
-def download_file(file_id, file_name):
+def download_file(folder_id, file_name, file_id):
     request = drive_service.files().get_media(fileId=file_id)
     with open(file_name, 'wb') as fh:
         downloader = MediaIoBaseDownload(fh, request)
@@ -380,10 +386,11 @@ def add_to_notion(info):
 @app.route('/process_drive_folder', methods=['POST'])
 def process_drive_folder():
 
-    global file_name
     global folder_id
+    global file_name
+    global file_id
 
-    get_folder_id_file_name()
+    get_folder_id_file_name_file_id()
     # files = list_files_in_folder(google_drive_folder_id)
     # responses = []
     # for file in files:
@@ -404,7 +411,7 @@ def process_drive_folder():
     
     try:
         # Download the file using the provided file ID and name
-        file_path = download_file(file_id, file_name)
+        file_path = download_file(folder_id, file_name, file_id)
         logging.debug("FILE DOWNLOADED")
         # Parse the resume information from the file
         info = extract_info_from_resume(file_path)
