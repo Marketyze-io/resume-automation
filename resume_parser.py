@@ -396,7 +396,7 @@ def add_to_notion(info):
 
             "University": {
                 "select": {
-                    "name": university_name if university_id else "Unknown University"
+                    "name": processed_university_name if university_id else "Unknown University"
                 }
             },
 
