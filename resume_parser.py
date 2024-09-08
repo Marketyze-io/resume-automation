@@ -242,7 +242,7 @@ def extract_info_from_resume(file_path):
         - Major
 
         Additionally, provide a comment on the resume, focusing on its clarity, professionalism, or any other relevant insights. The comment should not exceed 150 words.
-        - GPT Comment
+        - GPT_Comment
         """
 
     logging.debug("Querying GPT now")
@@ -259,7 +259,9 @@ def extract_info_from_resume(file_path):
                 # model="gpt-3.5-turbo-instruct",
                 model="gpt-4-turbo",
                 # model="text-davinci-003",
-                messages = [{"role": "system", "content": prompt}],
+                messages = [
+                    {"role": "user", "content": prompt}  # "user" role for prompt
+                ],
                 # prompt=prompt,
                 max_tokens=200,
                 temperature=0.5
