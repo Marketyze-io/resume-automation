@@ -283,6 +283,7 @@ def extract_info_from_resume(file_path):
                 # gpt_resp = line.split("**GPT_Comment:**")[1].strip()
                 # logging.debug(f"This is the GPT response: {gpt_resp}")
                 logging.debug("GPT_Comment" in line)
+                logging.debug(line.split("**GPT_Comment:**"))
                 if "Name:" in line:
                     info['name'] = line.split("**Name:**")[1].strip()
                 elif "Email:" in line:
