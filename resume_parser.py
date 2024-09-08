@@ -281,12 +281,13 @@ def extract_info_from_resume(file_path):
             # This accounts for the situation where the actual GPT Comment appears one line after the header "GPT_Comment"
             info = {}
             lines = gpt_output.split('\n')  # Split the output into lines
+            logging.debug(f"Length of lines: {len(lines)}")  # Log the total length of lines
             i = 0  # Initialize a counter for iterating through the lines
 
             while i < len(lines):
-                logging.debug(f"Length of lines: {len(lines)}")
-                logging.debug(f"Line number: {i}")
                 line = lines[i].strip()
+                logging.debug(f"Line number: {i}, content: {line}")  # Log the line number and content
+
                 if "Name:" in line:
                     info['name'] = line.split("**Name:**")[1].strip()
                 elif "Email:" in line:
@@ -303,6 +304,8 @@ def extract_info_from_resume(file_path):
                         logging.debug(f"Captured GPT Comment: {comment_line}")
                     else:
                         info['gpt_comment'] = 'No comment provided'
+                        logging.debug("No additional line for GPT comment")
+
                 i += 1  # Move to the next line
 
             # Handle missing fields with default values
