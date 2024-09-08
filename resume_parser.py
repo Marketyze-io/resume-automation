@@ -245,7 +245,7 @@ def extract_info_from_resume(file_path):
         - GPT_Comment
 
         Resume:
-        {resume_content[:3000]}
+        {resume_content[:10000]}
         """
 
     logging.debug("Querying GPT now")
