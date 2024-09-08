@@ -241,6 +241,9 @@ def extract_info_from_resume(file_path):
         - University
         - Major
 
+        Resume:
+        {resume_content[:3000]}
+
         Additionally, provide a comment on the resume, focusing on its clarity, professionalism, or any other relevant insights. The comment should not exceed 150 words.
         - GPT_Comment
         """
