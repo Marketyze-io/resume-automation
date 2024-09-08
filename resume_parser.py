@@ -297,9 +297,16 @@ def extract_info_from_resume(file_path):
                 elif "**Major:**" in line or "Major:" in line:
                     info['major'] = line.split("**Major:**")[-1].strip()
                 elif "**GPT_Comment:**" in line or "GPT_Comment:" in line:
-                    # Ensure the next line has the comment
-                    if i + 1 < len(lines):
-                        info['gpt_comment'] = lines[i + 1].strip()
+                    # Check if the comment appears inline
+                    comment = line.split("**GPT_Comment:**")[-1].strip() or line.split("GPT_Comment:")[-1].strip()
+                    if comment:  # Inline comment found
+                        info['gpt_comment'] = comment
+                    elif i + 1 < len(lines):  # If no inline comment, check the next line
+                        next_line = lines[i + 1].strip()
+                        if next_line:  # Check if the next line contains a comment
+                            info['gpt_comment'] = next_line
+                        else:
+                            info['gpt_comment'] = "No comment provided"
                     else:
                         info['gpt_comment'] = "No comment provided"
                 i += 1
