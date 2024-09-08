@@ -351,6 +351,9 @@ def add_to_notion(info):
     # Replace 'university_name' with the name parsed from the resume
     university_name = info.get('university', 'Unknown University')
 
+    # Remove commas from the university name
+    processed_university_name = university_name.replace(',', '')
+
     # Find the corresponding university in the dropdown options
     university_options = {
         "Chulalongkorn University": "e4620776-71b2-40ef-b6e4-ee9587f96964",
@@ -367,7 +370,7 @@ def add_to_notion(info):
         "New York University": "fcaa6621-7ee7-4902-856d-d1892039665d"
     }
 
-    university_id = university_options.get(university_name, "Other University")
+    university_id = university_options.get(processed_university_name, "Other University")
     
     logging.debug("Start processing data to be sent to Notion!")
 
