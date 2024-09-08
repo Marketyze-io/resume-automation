@@ -283,7 +283,7 @@ def extract_info_from_resume(file_path):
                 if "Name:" in line:
                     info['name'] = line.split("**Name:**")[1].strip()
                 elif "Email:" in line:
-                    info['email'] = line.split("**Email:")[1].strip()
+                    info['email'] = line.split("**Email:**")[1].strip()
                 elif "University:" in line:
                     info['university'] = line.split("**University:**")[1].strip()
                 elif "Major:" in line:
