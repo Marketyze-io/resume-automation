@@ -235,14 +235,14 @@ def extract_info_from_resume(file_path):
     # Truncate resume_content to a smaller length (e.g., 2000 characters) to stay within the token limit.
 
     prompt = f"""
-        Extract the following information from the resume:
-        - Name
-        - Email
-        - University
-        - Major
+        Extract the following information from the resume. Please ensure that the field names (Name, Email, University, Major, GPT_Comment) are bold and followed by a colon:
+        - **Name:** 
+        - **Email:** 
+        - **University:** 
+        - **Major:**
 
         Additionally, provide a comment on the resume, focusing on its clarity, professionalism, or any other relevant insights. The comment should not exceed 150 words.
-        - GPT_Comment
+        - **GPT_Comment:** 
 
         Resume:
         {resume_content[:10000]}
