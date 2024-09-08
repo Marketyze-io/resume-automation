@@ -288,25 +288,21 @@ def extract_info_from_resume(file_path):
                 line = lines[i].strip()
                 logging.debug(f"Line number: {i}, content: {line}")  # Log the line number and content
 
-                if "Name:" in line:
-                    info['name'] = line.split("**Name:**")[1].strip()
-                elif "Email:" in line:
-                    info['email'] = line.split("**Email:**")[1].strip()
-                elif "University:" in line:
-                    info['university'] = line.split("**University:**")[1].strip()
-                elif "Major:" in line:
-                    info['major'] = line.split("**Major:**")[1].strip()
-                elif "GPT_Comment:" in line:
-                    # Check if the next line contains the actual comment text
-                    if i + 1 < len(lines):  # Ensure there is a next line
-                        comment_line = lines[i + 1].strip()  # Get the next line
-                        info['gpt_comment'] = comment_line
-                        logging.debug(f"Captured GPT Comment: {comment_line}")
+                if "**Name:**" in line or "Name:" in line:
+                    info['name'] = line.split("**Name:**")[-1].strip()
+                elif "**Email:**" in line or "Email:" in line:
+                    info['email'] = line.split("**Email:**")[-1].strip()
+                elif "**University:**" in line or "University:" in line:
+                    info['university'] = line.split("**University:**")[-1].strip()
+                elif "**Major:**" in line or "Major:" in line:
+                    info['major'] = line.split("**Major:**")[-1].strip()
+                elif "**GPT_Comment:**" in line or "GPT_Comment:" in line:
+                    # Ensure the next line has the comment
+                    if i + 1 < len(lines):
+                        info['gpt_comment'] = lines[i + 1].strip()
                     else:
-                        info['gpt_comment'] = 'No comment provided'
-                        logging.debug("No additional line for GPT comment")
-
-                i += 1  # Move to the next line
+                        info['gpt_comment'] = "No comment provided"
+                i += 1
 
             # Handle missing fields with default values
             info.setdefault('name', 'Unknown Name')
