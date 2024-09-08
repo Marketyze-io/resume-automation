@@ -281,15 +281,16 @@ def extract_info_from_resume(file_path):
             info = {}
             for line in gpt_output.split('\n'):
                 if "Name:" in line:
-                    info['name'] = line.split("Name:")[1].strip()
+                    info['name'] = line.split("**Name:**")[1].strip()
                 elif "Email:" in line:
-                    info['email'] = line.split("Email:")[1].strip()
+                    info['email'] = line.split("**Email:")[1].strip()
                 elif "University:" in line:
-                    info['university'] = line.split("University:")[1].strip()
+                    info['university'] = line.split("**University:**")[1].strip()
                 elif "Major:" in line:
-                    info['major'] = line.split("Major:")[1].strip()
+                    info['major'] = line.split("**Major:**")[1].strip()
                 elif "GPT_Comment:" in line:
-                    info['gpt_comment'] = line.split("GPT_Comment:")[1].strip()
+                    info['gpt_comment'] = line.split("**GPT_Comment:**")[1].strip()
+                    print(info['gpt_comment'])
 
             # Handle missing fields with default values
             info.setdefault('name', 'Unknown Name')
