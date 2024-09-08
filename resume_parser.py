@@ -231,8 +231,19 @@ def extract_info_from_resume(file_path):
     print_tokens(resume_content)
 
     # Construct the prompt for input text
-    prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content[:2000]}"
+    # prompt = f"Extract the following information from the resume:\n\n- Name\n- Email\n- University\n- Major\n\nResume:\n{resume_content[:2000]}"
     # Truncate resume_content to a smaller length (e.g., 2000 characters) to stay within the token limit.
+
+    prompt = f"""
+        Extract the following information from the resume:
+        - Name
+        - Email
+        - University
+        - Major
+
+        Additionally, provide a comment on the resume, focusing on its clarity, professionalism, or any other relevant insights. The comment should not exceed 150 words.
+        - GPT Comment
+        """
 
     logging.debug("Querying GPT now")
 
@@ -272,12 +283,15 @@ def extract_info_from_resume(file_path):
                     info['university'] = line.split("University:")[1].strip()
                 elif "Major:" in line:
                     info['major'] = line.split("Major:")[1].strip()
+                elif "GPT_Comment:" in line:
+                    info['gpt_comment'] = line.split("GPT_Comment:")[1].strip()
 
             # Handle missing fields with default values
             info.setdefault('name', 'Unknown Name')
             info.setdefault('email', 'unknown@unknown.com')
             info.setdefault('university', 'Unknown University')
             info.setdefault('major', 'Unknown Major')
+            info.setdefault('gpt_comment', 'No comment from GPT')
 
             logging.debug("Resume loaded.")
             return info
@@ -367,6 +381,14 @@ def add_to_notion(info):
                 "rich_text": [{
                     "text": {
                         "content": f"{info.get('major', 'Unknown Major')}"
+                    }
+                }]
+            },
+
+            "GPT Comment": {
+                "rich_text": [{
+                    "text": {
+                        "content": f"{info.get('gpt_comment', 'No comment from GPT')}"
                     }
                 }]
             },
