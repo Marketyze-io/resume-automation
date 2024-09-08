@@ -291,7 +291,7 @@ def extract_info_from_resume(file_path):
                 elif "GPT_Comment:" in line:
                     info['gpt_comment'] = line.split("**GPT_Comment:**")[1].strip()
 
-            logging.debug(f"This is the GPT response: {line.split("**GPT_Comment:**")[1].strip()}")
+                logging.debug(f"This is the GPT response: {line.split("**GPT_Comment:**")[1].strip()}")
 
             # Handle missing fields with default values
             info.setdefault('name', 'Unknown Name')
