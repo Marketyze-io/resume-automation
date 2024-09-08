@@ -284,6 +284,8 @@ def extract_info_from_resume(file_path):
             i = 0  # Initialize a counter for iterating through the lines
 
             while i < len(lines):
+                logging.debug(f"Length of lines: {len(lines)}")
+                logging.debug(f"Line number: {i}")
                 line = lines[i].strip()
                 if "Name:" in line:
                     info['name'] = line.split("**Name:**")[1].strip()
