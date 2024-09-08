@@ -326,6 +326,8 @@ def extract_info_from_resume(file_path):
             break  # Stop retrying on request errors
         except Exception as e:
             logging.error(f"An unexpected error occurred: {e}")
+            break #Some errors don't have the response field
+
             logging.error(f"{e.response.status_code}")
             if e.response.status_code == 429:  # Too Many Requests
                 logging.warning(f"Rate limit exceeded. Retrying in {delay} seconds...")
