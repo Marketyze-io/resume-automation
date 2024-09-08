@@ -174,9 +174,9 @@ def print_tokens(text):
     tokens = tokenizer.encode(text)
     
     print(f"Total tokens: {len(tokens)}")
-    print("Tokens:")
-    for token in tokens:
-        print(f"{token}: {tokenizer.decode([token])}")
+    # print("Tokens:")
+    # for token in tokens:
+    #     print(f"{token}: {tokenizer.decode([token])}")
 
 def extract_text_from_pdf(file_path):
     with open(file_path, 'rb') as file:
