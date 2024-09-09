@@ -50,17 +50,23 @@ database_id = os.getenv("NOTION_DATABASE_ID")
 # new_file_added = 0
 
 folder_mapping = {
-    "folder_1": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
+    "Testing": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
     "folder_2": "1B_-156jzb_V_aNa6rLMdjRUt3CV2SFNc",
     "folder_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
     "folder_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
 }
 
+# Reverse the folder_mapping so folder_id is the key and folder_name is the value
+folder_id_to_name = {v: k for k, v in folder_mapping.items()}
+
+folder_name = ""
 folder_id = ""
 file_name = ""
 file_id = ""
 
 def get_folder_id_file_name_file_id():
+
+    global folder_name
     global folder_id
     global file_name
     global file_id
@@ -82,6 +88,9 @@ def get_folder_id_file_name_file_id():
     # Check if the folder ID is in the mapping
     if folder_id not in folder_mapping.values():
         return jsonify({"error": "Invalid folder ID"}), 400
+    
+    # Look up the folder name using the folder ID
+    folder_name = folder_id_to_name.get(folder_id, "Unknown Folder")
 
 # def list_files_in_folder(folder_id):
 #     global file_order_list
