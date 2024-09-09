@@ -394,6 +394,12 @@ def add_to_notion(info):
         "parent": { "database_id": database_id },
         "properties": {
 
+            "Position": {
+                "select": {
+                    "name": folder_name if folder_name else "Unknown Position"
+                }
+            },
+
             "Name": { 
                 "title": [{ 
                     "text": {  
