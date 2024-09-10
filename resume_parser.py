@@ -151,14 +151,24 @@ def download_file(folder_id, file_name, file_id):
         file_id (str): The ID of the file to be downloaded.
         file_name (str): The name to save the file as.
     """
+
+    logging.debug(f"File ID is {file_id}")
     request = drive_service.files().get_media(fileId=file_id)
+    logging.debug(f"Prepared request to retrieve file from drive service!")
+
     with open(file_name, 'wb') as fh:
         downloader = MediaIoBaseDownload(fh, request)
+        logging.debug(f"Downloader initialised!")
         done = False
         while not done:
             status, done = downloader.next_chunk()
+
     logging.debug(f"File {file_name} downloaded!")
-    return file_name
+
+    # Return the absolute file path
+    file_path = os.path.abspath(file_name)
+    logging.debug(f"Returning file path: {file_path}")
+    return file_path
 
 # def download_file_by_name(file_name):
 #     query = f"name = '{file_name}' and '{folder_id}' in parents"
@@ -497,11 +507,15 @@ def process_drive_folder():
         # Download the file using the provided file ID and name
         file_path = download_file(folder_id, file_name, file_id)
         logging.debug("FILE DOWNLOADED")
+
         # Parse the resume information from the file
         info = extract_info_from_resume(file_path)
         logging.debug("INFO EXTRACTED FROM RESUME")
+
+        # Add the parsed info to Notion
         response = add_to_notion(info)
         logging.debug("ADDED TO NOTION")
+        
         return jsonify({"status": "success", "parsed_info": info, "response": response}), 200
 
     except Exception as e:
