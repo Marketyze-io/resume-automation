@@ -51,9 +51,10 @@ database_id = os.getenv("NOTION_DATABASE_ID")
 
 folder_mapping = {
     "Testing": "10P2DQDZZKIGKId8WcLSxMloSpTaeMjB3",
-    "folder_2": "1B_-156jzb_V_aNa6rLMdjRUt3CV2SFNc",
-    "folder_3": "1nV1WO0BgKI4LJDM3NZV4tgktVVtuqZtS",
-    "folder_4": "17pVkmGPT12UlO3dPI7jtujtr8xBRpwR9",
+    "Growth": "1vZ2nT2qLhGE4GnwPc0b4h40y51xFClHh",
+    "Tech": "1ANQ9l-EYVxKfeoNTLvkUlXFBtb0NkJul",
+    "Creative": "1zGYtePBvuplEnukrLhxp8qEZSAUlTbrl",
+    "Marketyze": "1o7J6dI8mbUQksm5D3GLPIWHAHVZrQ0ku",
 }
 
 # Reverse the folder_mapping so folder_id is the key and folder_name is the value
